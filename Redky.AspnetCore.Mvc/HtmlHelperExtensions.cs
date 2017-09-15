@@ -9,9 +9,9 @@ namespace Redky.AspnetCore.Mvc
 {
     public static class HtmlHelperExtensions
     {
-        public static ComponentBuilder<TModel> Redky<TModel>(this IHtmlHelper<TModel> htmlHelper) where TModel : class
+        public static ControlBuilder<TModel> Redky<TModel>(this IHtmlHelper<TModel> htmlHelper) where TModel : class
         {
-            return new ComponentBuilder<TModel>(htmlHelper);
+            return new ControlBuilder<TModel>(htmlHelper);
         }
     }
 }

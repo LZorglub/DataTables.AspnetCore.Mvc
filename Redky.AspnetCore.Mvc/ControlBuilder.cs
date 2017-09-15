@@ -2,9 +2,9 @@
 
 namespace Redky.AspnetCore.Mvc
 {
-    public class ComponentBuilder<TModel> where TModel : class
+    public class ControlBuilder<TModel> where TModel : class
     {
-        public ComponentBuilder(IHtmlHelper<TModel> htmlHelper)
+        public ControlBuilder(IHtmlHelper<TModel> htmlHelper)
         {
             this.HtmlHelper = htmlHelper;
         }
