@@ -41,5 +41,30 @@
         /// Pagination button display options.
         /// </summary>
         public PagingType PagingType { get; set; } = PagingType.Simple_numbers;
+
+        /// <summary>
+        /// Allow the table to reduce in height when a limited number of rows are shown.
+        /// </summary>
+        public bool ScrollCollapse { get; internal set; }
+
+        /// <summary>
+        /// Vertical scrolling.
+        /// </summary>
+        public string ScrollY { get; set; }
+
+        /// <summary>
+        /// Horizontal scrolling
+        /// </summary>
+        public bool ScrollX { get; set; }
+
+        /// <summary>
+        /// Feature control the processing indicator.
+        /// </summary>
+        public bool Processing { get; set; }
+
+        /// <summary>
+        /// Feature control DataTables' server-side processing mode.
+        /// </summary>
+        public bool ServerSide { get; set; }
     }
 }

@@ -1,0 +1,18 @@
+﻿@{
+    ViewData["Title"] = "Ajax - ServerSide";
+}
+
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <table id="example" class="display" cellspacing="0" width="100%">
+        </table>
+
+        @(Html.Redky().Grid<dynamic>().Name("example")
+            .Columns(c => { c.Add().Name("test").Title("1er"); c.Add().Name("position").Title("Position"); })
+            .ServerSide(true)
+            .DataSource(c =>
+                c.Ajax().Url("/api/value").Method("GET")
+            )
+        )
+    </div>
+</div>

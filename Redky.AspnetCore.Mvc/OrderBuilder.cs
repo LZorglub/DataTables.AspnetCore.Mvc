@@ -32,6 +32,11 @@ namespace Redky.AspnetCore.Mvc
             return this;
         }
 
+        /// <summary>
+        /// Writes the content by encoding it with the specified encoder to the specified writer
+        /// </summary>
+        /// <param name="writer">The <see cref="TextWriter"/> to which the content is written.</param>
+        /// <param name="encoder">The System.Text.Encodings.Web.HtmlEncoder which encodes the content to be written.</param>
         public void WriteTo(TextWriter writer, HtmlEncoder encoder)
         {
             if (columns.Count() != 0)
@@ -48,7 +53,7 @@ namespace Redky.AspnetCore.Mvc
                         writer.Write($"[{col},'asc'],");
                     }
                 }
-                writer.Write("]");
+                writer.Write("],");
             }
         }
 

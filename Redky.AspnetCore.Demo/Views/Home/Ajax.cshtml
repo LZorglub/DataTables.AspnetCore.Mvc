@@ -1,0 +1,43 @@
+﻿@{
+    ViewData["Title"] = "Ajax";
+}
+
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <table id="example" class="display" cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Position</th>
+                    <th>Office</th>
+                    <th>Extn.</th>
+                    <th>Start date</th>
+                    <th>Salary</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th>Name</th>
+                    <th>Position</th>
+                    <th>Office</th>
+                    <th>Extn.</th>
+                    <th>Start date</th>
+                    <th>Salary</th>
+                </tr>
+            </tfoot>
+        </table>
+
+        @(Html.Redky().Grid<dynamic>().Name("example")
+            .ColumnDefs(c => {
+                c.TargetAll().Searchable(false);
+                c.Targets(0).OrderData(1);
+                })
+            .PagingType(PagingType.Full_numbers)
+            .ServerSide(true)
+            .DataSource(c => 
+                c.Ajax().Url("/data/arrays.json").Method("GET")
+            )
+        )
+
+    </div>
+</div>

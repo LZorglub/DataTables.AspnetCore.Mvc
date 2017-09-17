@@ -9,15 +9,14 @@ using System.Text.Encodings.Web;
 
 namespace Redky.AspnetCore.Mvc
 {
-    public class ColumnDefsTargets : IHtmlContent
+    public class GridDataSourceBuilder : IHtmlContent
     {
-        private string target;
-        private GridColumnsBuilder column;
+        AjaxBuilder ajaxBuilder;
 
-        public ColumnDefsTargets(string target, GridColumnsBuilder column)
+        public AjaxBuilder Ajax()
         {
-            this.target = target;
-            this.column = column;
+            this.ajaxBuilder = new AjaxBuilder();
+            return this.ajaxBuilder;
         }
 
         /// <summary>
@@ -27,9 +26,10 @@ namespace Redky.AspnetCore.Mvc
         /// <param name="encoder">The System.Text.Encodings.Web.HtmlEncoder which encodes the content to be written.</param>
         public void WriteTo(TextWriter writer, HtmlEncoder encoder)
         {
-            writer.Write($"{{targets:{target},");
-            column.WriteTo(writer, encoder);
-            writer.Write("}");
+            if (this.ajaxBuilder != null)
+            {
+                this.ajaxBuilder.WriteTo(writer, encoder);
+            }
         }
     }
 }

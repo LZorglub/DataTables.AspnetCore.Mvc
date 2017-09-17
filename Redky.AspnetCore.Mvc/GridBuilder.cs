@@ -25,6 +25,8 @@ namespace Redky.AspnetCore.Mvc
 
         private OrderBuilder OrderBuilder { get; set; }
         private ColumnDefsFactory ColumnDefsFactory { get; set; }
+        private GridDataSourceBuilder GridDataSourceBuilder { get; set; }
+        private ColumnsFactory ColumnsFactory { get; set; }
 
         /// <summary>
         /// Grid name
@@ -128,6 +130,74 @@ namespace Redky.AspnetCore.Mvc
         }
 
         /// <summary>
+        /// Allow the table to reduce in height when a limited number of rows are shown.
+        /// </summary>
+        /// <param name="scrollCollapse"></param>
+        /// <returns></returns>
+        public GridBuilder<T> ScrollCollapse(bool scrollCollapse)
+        {
+            this.Grid.ScrollCollapse = scrollCollapse;
+            return this;
+        }
+
+        /// <summary>
+        /// Horizontal scrolling.
+        /// </summary>
+        /// <param name="scrollX"></param>
+        /// <returns></returns>
+        public GridBuilder<T> ScrollX(bool scrollX)
+        {
+            this.Grid.ScrollX = scrollX;
+            return this;
+        }
+
+        /// <summary>
+        /// Vertical scrolling.
+        /// </summary>
+        /// <param name="scrollY"></param>
+        /// <returns></returns>
+        public GridBuilder<T> ScrollY(string scrollY)
+        {
+            this.Grid.ScrollY = scrollY;
+            return this;
+        }
+
+        /// <summary>
+        /// Feature control the processing indicator.
+        /// </summary>
+        /// <param name="processing"></param>
+        /// <returns></returns>
+        public GridBuilder<T> Processing(bool processing)
+        {
+            this.Grid.Processing = processing;
+            return this;
+        }
+
+        /// <summary>
+        /// Feature control DataTables' server-side processing mode.
+        /// </summary>
+        /// <param name="processing"></param>
+        /// <returns></returns>
+        public GridBuilder<T> ServerSide(bool serverSide)
+        {
+            this.Grid.ServerSide = serverSide;
+            return this;
+        }
+
+        /// <summary>
+        /// Set columns.
+        /// </summary>
+        /// <param name="config"></param>
+        /// <returns></returns>
+        public GridBuilder<T> Columns(Action<ColumnsFactory> config)
+        {
+            this.ColumnsFactory = new ColumnsFactory();
+            config.Invoke(this.ColumnsFactory);
+
+            return this;
+        }
+
+        /// <summary>
         /// Set column definition initialisation properties.
         /// </summary>
         /// <param name="config"></param>
@@ -140,6 +210,24 @@ namespace Redky.AspnetCore.Mvc
             return this;
         }
 
+        /// <summary>
+        /// DataSources
+        /// </summary>
+        /// <param name="config"></param>
+        /// <returns></returns>
+        public GridBuilder<T> DataSource(Action<GridDataSourceBuilder> config)
+        {
+            this.GridDataSourceBuilder = new GridDataSourceBuilder();
+            config.Invoke(this.GridDataSourceBuilder);
+
+            return this;
+        }
+
+        /// <summary>
+        /// Writes the content by encoding it with the specified encoder to the specified writer
+        /// </summary>
+        /// <param name="writer">The <see cref="TextWriter"/> to which the content is written.</param>
+        /// <param name="encoder">The System.Text.Encodings.Web.HtmlEncoder which encodes the content to be written.</param>
         public void WriteTo(TextWriter writer, HtmlEncoder encoder)
         {
             writer.Write("<script>$(function(){");
@@ -151,8 +239,16 @@ namespace Redky.AspnetCore.Mvc
             if (!this.Grid.Ordering) writer.Write("\"ordering\":false,");
             if (!this.Grid.Info) writer.Write("\"info\":false,");
             if (!this.Grid.OrderMulti) writer.Write("\"orderMulti\":false,");
+            if (this.Grid.ScrollCollapse) writer.Write("\"scrollCollapse\":true,");
+            if (this.Grid.ScrollX) writer.Write("\"scrollX\":true,");
+            if (!string.IsNullOrEmpty(this.Grid.ScrollY)) writer.Write($"\"scrollY\":\"{this.Grid.ScrollY}\",");
+            if (this.Grid.Processing) writer.Write("\"processing\":true,");
+            if (this.Grid.ServerSide) writer.Write("\"serverSide\":true,");
             if (this.OrderBuilder != null) this.OrderBuilder.WriteTo(writer, encoder);
+            if (this.ColumnsFactory!= null) this.ColumnsFactory.WriteTo(writer, encoder);
             if (this.ColumnDefsFactory != null) this.ColumnDefsFactory.WriteTo(writer, encoder);
+            if (this.GridDataSourceBuilder != null) this.GridDataSourceBuilder.WriteTo(writer, encoder);
+
             writer.Write("});");
             writer.Write("});</script>");
         }

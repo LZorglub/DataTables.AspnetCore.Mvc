@@ -63,15 +63,20 @@ namespace Redky.AspnetCore.Mvc
             return column;
         }
 
+        /// <summary>
+        /// Writes the content by encoding it with the specified encoder to the specified writer
+        /// </summary>
+        /// <param name="writer">The <see cref="TextWriter"/> to which the content is written.</param>
+        /// <param name="encoder">The System.Text.Encodings.Web.HtmlEncoder which encodes the content to be written.</param>
         public void WriteTo(TextWriter writer, HtmlEncoder encoder)
         {
-            writer.Write("columnDefs:[");
+            writer.Write("\"columnDefs\":[");
             for(int i = 0; i < targets.Count; i++) 
             {
                 if (i != 0) writer.Write(",");
                 targets[i].WriteTo(writer, encoder);
             }
-            writer.Write("]");
+            writer.Write("],");
         }
     }
 }
