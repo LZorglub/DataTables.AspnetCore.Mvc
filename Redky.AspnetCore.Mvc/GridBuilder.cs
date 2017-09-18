@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Html;
 using System.Text.Encodings.Web;
+using System.Linq;
 
 namespace Redky.AspnetCore.Mvc
 {
@@ -26,7 +27,8 @@ namespace Redky.AspnetCore.Mvc
         private OrderBuilder OrderBuilder { get; set; }
         private ColumnDefsFactory ColumnDefsFactory { get; set; }
         private GridDataSourceBuilder GridDataSourceBuilder { get; set; }
-        private ColumnsFactory ColumnsFactory { get; set; }
+        private ColumnsFactory<T> ColumnsFactory { get; set; }
+        private GridButtonsFactory<T> GridButtonsFactory { get; set; }
 
         /// <summary>
         /// Grid name
@@ -130,6 +132,17 @@ namespace Redky.AspnetCore.Mvc
         }
 
         /// <summary>
+        /// Data property name that DataTables will use to set tr element DOM IDs.
+        /// </summary>
+        /// <param name="scrollCollapse"></param>
+        /// <returns></returns>
+        public GridBuilder<T> RowId(string rowId)
+        {
+            this.Grid.RowId = rowId;
+            return this;
+        }
+
+        /// <summary>
         /// Allow the table to reduce in height when a limited number of rows are shown.
         /// </summary>
         /// <param name="scrollCollapse"></param>
@@ -189,10 +202,23 @@ namespace Redky.AspnetCore.Mvc
         /// </summary>
         /// <param name="config"></param>
         /// <returns></returns>
-        public GridBuilder<T> Columns(Action<ColumnsFactory> config)
+        public GridBuilder<T> Columns(Action<ColumnsFactory<T>> config)
         {
-            this.ColumnsFactory = new ColumnsFactory();
+            this.ColumnsFactory = new ColumnsFactory<T>();
             config.Invoke(this.ColumnsFactory);
+
+            return this;
+        }
+
+        /// <summary>
+        /// Buttons configuration object.
+        /// </summary>
+        /// <param name="config"></param>
+        /// <returns></returns>
+        public GridBuilder<T> Buttons(Action<GridButtonsFactory<T>> config)
+        {
+            this.GridButtonsFactory = new GridButtonsFactory<T>();
+            config.Invoke(this.GridButtonsFactory);
 
             return this;
         }
@@ -230,8 +256,17 @@ namespace Redky.AspnetCore.Mvc
         /// <param name="encoder">The System.Text.Encodings.Web.HtmlEncoder which encodes the content to be written.</param>
         public void WriteTo(TextWriter writer, HtmlEncoder encoder)
         {
+            bool withClick = this.ColumnsFactory != null && this.ColumnsFactory.Columns.Any(c => !string.IsNullOrEmpty(c.Column.Click));
+
             writer.Write("<script>$(function(){");
-            writer.Write($"$('#{this.Grid.Name}').DataTable({{");
+            if (withClick)
+            {
+                writer.Write($"var grid=$('#{this.Grid.Name}');var dt=grid.DataTable({{");
+            } else
+            {
+                writer.Write($"$('#{this.Grid.Name}').DataTable({{");
+            }
+            if (!string.IsNullOrEmpty(this.Grid.RowId)) writer.Write($"\"rowId\":'{this.Grid.RowId}',");
             if (!string.IsNullOrEmpty(this.Grid.Dom)) writer.Write($"\"dom\":'{this.Grid.Dom}',");
             if (this.Grid.StateSave) writer.Write("\"stateSave\":true,");
             if (!this.Grid.Paging) writer.Write("\"paging\":false,");
@@ -245,12 +280,23 @@ namespace Redky.AspnetCore.Mvc
             if (this.Grid.Processing) writer.Write("\"processing\":true,");
             if (this.Grid.ServerSide) writer.Write("\"serverSide\":true,");
             if (this.OrderBuilder != null) this.OrderBuilder.WriteTo(writer, encoder);
+            if (this.GridButtonsFactory != null) this.GridButtonsFactory.WriteTo(writer, encoder);
             if (this.ColumnsFactory!= null) this.ColumnsFactory.WriteTo(writer, encoder);
             if (this.ColumnDefsFactory != null) this.ColumnDefsFactory.WriteTo(writer, encoder);
             if (this.GridDataSourceBuilder != null) this.GridDataSourceBuilder.WriteTo(writer, encoder);
 
             writer.Write("});");
-            writer.Write("});</script>");
+
+            if (withClick)
+            {
+                writer.Write("var fn=[" + string.Join(",",this.ColumnsFactory.Columns.Select(e => e.Column.Click)) + "];");
+                writer.Write("grid.on('click','button',function(){var row=dt.row($(this).parents('tr'));var i=dt.column($(this).parents('td')).index();if (fn.length>i){fn[i]({data:$(this).data(),rowid:row.id(),row:row.data()});}});");
+                writer.Write("});</script>");
+            }
+            else
+            {
+                writer.Write("});</script>");
+            }
         }
     }
 }

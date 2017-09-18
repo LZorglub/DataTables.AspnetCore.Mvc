@@ -105,5 +105,10 @@ namespace Redky.AspnetCore.Mvc
         /// Column width assignment.
         /// </summary>
         public string Width { get; set; }
+
+        /// <summary>
+        /// Action call when button clicked inside column
+        /// </summary>
+        public string Click { get; set; }
     }
 }

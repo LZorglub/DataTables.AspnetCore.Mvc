@@ -43,6 +43,11 @@
         public PagingType PagingType { get; set; } = PagingType.Simple_numbers;
 
         /// <summary>
+        /// Data property name that DataTables will use to set tr element DOM IDs.
+        /// </summary>
+        public string RowId { get; internal set; }
+
+        /// <summary>
         /// Allow the table to reduce in height when a limited number of rows are shown.
         /// </summary>
         public bool ScrollCollapse { get; internal set; }

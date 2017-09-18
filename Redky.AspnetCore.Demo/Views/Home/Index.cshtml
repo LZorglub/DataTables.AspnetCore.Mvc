@@ -2,7 +2,9 @@
     ViewData["Title"] = "Home Page";
 }
 
-@*@(Html.Kendo().Grid<dynamic>().Name("id").Columns(c => { }))*@
+@*@(Html.Kendo().Grid<Product>().Name("id").Columns(columns => {
+    columns.Bound(c => c.Id);
+}))*@
 
 @*@(Html.Redky().Grid<Product>().Name("test"))*@
 
@@ -491,12 +493,20 @@
         </table>
 
         @(Html.Redky().Grid<dynamic>().Name("example")
-            .Dom("<\"top\"i>rt<\"bottom\"flp><\"clear\">")
-            .ColumnDefs(c => {
+            .Dom("<\"top\"iB>rt<\"bottom\"flp><\"clear\">")
+            .Dom("B<\"clear\">lfrtip")
+            .ColumnDefs(c =>
+            {
                 c.TargetAll().Searchable(false);
                 c.Targets(0).OrderData(1);
-                })
+            })
             .PagingType(PagingType.Full_numbers)
+            .Buttons(b =>
+            {
+                b.Name("primary").Add(ButtonType.Copy);
+                b.Add(ButtonType.Excel);
+                b.Add(ButtonType.Print).Text("Imprimer");
+            })
         )
            
     </div>

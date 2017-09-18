@@ -11,15 +11,18 @@ namespace Redky.AspnetCore.Mvc
 {
     public class GridColumnsBuilder : IHtmlContent
     {
-        GridColumn column;
-
         /// <summary>
         /// Initialize a new instance of <see cref="GridColumnsBuilder"/>
         /// </summary>
         public GridColumnsBuilder()
         {
-            this.column = new GridColumn();
+            this.Column = new GridColumn();
         }
+
+        /// <summary>
+        /// Gets the internal column
+        /// </summary>
+        internal GridColumn Column { get; }
 
         /// <summary>
         /// Cell type to be created for a column.
@@ -28,7 +31,18 @@ namespace Redky.AspnetCore.Mvc
         /// <returns></returns>
         public GridColumnsBuilder CellType(CellType cellType)
         {
-            this.column.CellType = cellType;
+            this.Column.CellType = cellType;
+            return this;
+        }
+
+        /// <summary>
+        /// Action call when button clicked inside column
+        /// </summary>
+        /// <param name="cellType"></param>
+        /// <returns></returns>
+        public GridColumnsBuilder Click(string function)
+        {
+            this.Column.Click = function;
             return this;
         }
 
@@ -39,7 +53,7 @@ namespace Redky.AspnetCore.Mvc
         /// <returns></returns>
         public GridColumnsBuilder ClassName(string className)
         {
-            this.column.ClassName = className;
+            this.Column.ClassName = className;
             return this;
         }
 
@@ -50,7 +64,7 @@ namespace Redky.AspnetCore.Mvc
         /// <returns></returns>
         public GridColumnsBuilder ContentPadding(string contentPadding)
         {
-            this.column.ContentPadding = contentPadding;
+            this.Column.ContentPadding = contentPadding;
             return this;
         }
 
@@ -61,7 +75,7 @@ namespace Redky.AspnetCore.Mvc
         /// <returns></returns>
         public GridColumnsBuilder Data(string data)
         {
-            this.column.Data = $"\"{data}\"";
+            this.Column.Data = $"\"{data}\"";
             return this;
         }
 
@@ -72,7 +86,7 @@ namespace Redky.AspnetCore.Mvc
         /// <returns></returns>
         public GridColumnsBuilder Data(int data)
         {
-            this.column.Data = data.ToString();
+            this.Column.Data = data.ToString();
             return this;
         }
 
@@ -83,7 +97,7 @@ namespace Redky.AspnetCore.Mvc
         /// <returns></returns>
         public GridColumnsBuilder DefaultContent(string defaultContent)
         {
-            this.column.DefaultContent = defaultContent;
+            this.Column.DefaultContent = defaultContent;
             return this;
         }
 
@@ -94,7 +108,7 @@ namespace Redky.AspnetCore.Mvc
         /// <returns></returns>
         public GridColumnsBuilder Name(string name)
         {
-            this.column.Name = name;
+            this.Column.Name = name;
             return this;
         }
 
@@ -105,7 +119,7 @@ namespace Redky.AspnetCore.Mvc
         /// <returns></returns>
         public GridColumnsBuilder Orderable(bool orderable)
         {
-            this.column.Orderable = orderable;
+            this.Column.Orderable = orderable;
             return this;
         }
 
@@ -116,7 +130,7 @@ namespace Redky.AspnetCore.Mvc
         /// <returns></returns>
         public GridColumnsBuilder OrderData(int column)
         {
-            this.column.OrderData = column.ToString();
+            this.Column.OrderData = column.ToString();
             return this;
         }
 
@@ -127,7 +141,7 @@ namespace Redky.AspnetCore.Mvc
         /// <returns></returns>
         public GridColumnsBuilder OrderData(int[] columns)
         {
-            this.column.OrderData = $"[{string.Join(",", columns)}]";
+            this.Column.OrderData = $"[{string.Join(",", columns)}]";
             return this;
         }
 
@@ -138,7 +152,7 @@ namespace Redky.AspnetCore.Mvc
         /// <returns></returns>
         public GridColumnsBuilder OrderDataType(string orderDataType)
         {
-            this.column.OrderDataType = orderDataType;
+            this.Column.OrderDataType = orderDataType;
             return this;
         }
 
@@ -149,7 +163,18 @@ namespace Redky.AspnetCore.Mvc
         /// <returns></returns>
         public GridColumnsBuilder Render(string render)
         {
-            this.column.Render = render;
+            this.Column.Render = render;
+            return this;
+        }
+
+        /// <summary>
+        /// Render (process) the data for use in the table.
+        /// </summary>
+        /// <param name="function"></param>
+        /// <returns></returns>
+        public GridColumnsBuilder Render(Func<string> function)
+        {
+            this.Column.Render = $"function(d,t,r,m){{return {function()}(d,t,r,m);}}";
             return this;
         }
 
@@ -160,7 +185,7 @@ namespace Redky.AspnetCore.Mvc
         /// <returns></returns>
         public GridColumnsBuilder Searchable(bool searchable)
         {
-            this.column.Searchable = searchable;
+            this.Column.Searchable = searchable;
             return this;
         }
 
@@ -171,7 +196,7 @@ namespace Redky.AspnetCore.Mvc
         /// <returns></returns>
         public GridColumnsBuilder Title(string title)
         {
-            this.column.Title = title;
+            this.Column.Title = title;
             return this;
         }
 
@@ -182,7 +207,7 @@ namespace Redky.AspnetCore.Mvc
         /// <returns></returns>
         public GridColumnsBuilder Type(string type)
         {
-            this.column.Type = type;
+            this.Column.Type = type;
             return this;
         }
 
@@ -193,7 +218,7 @@ namespace Redky.AspnetCore.Mvc
         /// <returns></returns>
         public GridColumnsBuilder Visible(bool visible)
         {
-            this.column.Visible = visible;
+            this.Column.Visible = visible;
             return this;
         }
 
@@ -204,7 +229,7 @@ namespace Redky.AspnetCore.Mvc
         /// <returns></returns>
         public GridColumnsBuilder Width(string width)
         {
-            this.column.Width = width;
+            this.Column.Width = width;
             return this;
         }
 
@@ -234,21 +259,21 @@ namespace Redky.AspnetCore.Mvc
 
             // data and orderData are full formatted
 
-            if (this.column.CellType != Mvc.CellType.td) writer.Write("\"cellType\":\"tr\",");
-            if (!string.IsNullOrEmpty(this.column.ClassName)) writer.Write($"className:\"{this.column.ClassName}\",");
-            if (!string.IsNullOrEmpty(this.column.ContentPadding)) writer.Write($"\"contentPadding\":\"{this.column.ContentPadding}\",");
-            if (!string.IsNullOrEmpty(this.column.Data)) writer.Write($"\"data\":{this.column.Data},");
-            if (!string.IsNullOrEmpty(this.column.DefaultContent)) writer.Write($"\"defaultContent\":\"{this.column.DefaultContent}\",");
-            if (!string.IsNullOrEmpty(this.column.Name)) writer.Write($"\"name\":\"{this.column.Name}\",");
-            if (!this.column.Orderable) writer.Write($"\"orderable\":\"false\",");
-            if (!string.IsNullOrEmpty(this.column.OrderData)) writer.Write($"\"orderData\":{this.column.OrderData},");
-            if (!string.IsNullOrEmpty(this.column.OrderDataType)) writer.Write($"\"orderDataType\":\"{this.column.OrderDataType}\",");
-            if (!string.IsNullOrEmpty(this.column.Render)) writer.Write($"\"render\":\"{this.column.Render}\",");
-            if (!this.column.Searchable) writer.Write("searchable:false,");
-            if (!string.IsNullOrEmpty(this.column.Title)) writer.Write($"\"title\":\"{this.column.Title}\",");
-            if (!string.IsNullOrEmpty(this.column.Type)) writer.Write($"\"type\":\"{this.column.Type}\",");
-            if (!this.column.Visible) writer.Write("visible:false,");
-            if (!string.IsNullOrEmpty(this.column.Width)) writer.Write($"\"width\":\"{this.column.Width}\"");
+            if (this.Column.CellType != Mvc.CellType.td) writer.Write("\"cellType\":\"tr\",");
+            if (!string.IsNullOrEmpty(this.Column.ClassName)) writer.Write($"className:\"{this.Column.ClassName}\",");
+            if (!string.IsNullOrEmpty(this.Column.ContentPadding)) writer.Write($"\"contentPadding\":\"{this.Column.ContentPadding}\",");
+            if (!string.IsNullOrEmpty(this.Column.Data)) writer.Write($"\"data\":{this.Column.Data},");
+            if (!string.IsNullOrEmpty(this.Column.DefaultContent)) writer.Write($"\"defaultContent\":\"{this.Column.DefaultContent}\",");
+            if (!string.IsNullOrEmpty(this.Column.Name)) writer.Write($"\"name\":\"{this.Column.Name}\",");
+            if (!this.Column.Orderable) writer.Write($"\"orderable\":\"false\",");
+            if (!string.IsNullOrEmpty(this.Column.OrderData)) writer.Write($"\"orderData\":{this.Column.OrderData},");
+            if (!string.IsNullOrEmpty(this.Column.OrderDataType)) writer.Write($"\"orderDataType\":\"{this.Column.OrderDataType}\",");
+            if (!string.IsNullOrEmpty(this.Column.Render)) writer.Write($"\"render\":{this.Column.Render},");
+            if (!this.Column.Searchable) writer.Write("searchable:false,");
+            if (!string.IsNullOrEmpty(this.Column.Title)) writer.Write($"\"title\":\"{this.Column.Title}\",");
+            if (!string.IsNullOrEmpty(this.Column.Type)) writer.Write($"\"type\":\"{this.Column.Type}\",");
+            if (!this.Column.Visible) writer.Write("visible:false,");
+            if (!string.IsNullOrEmpty(this.Column.Width)) writer.Write($"\"width\":\"{this.Column.Width}\"");
         }
     }
 }

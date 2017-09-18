@@ -7,8 +7,13 @@
         <table id="example" class="display" cellspacing="0" width="100%">
         </table>
 
-        @(Html.Redky().Grid<dynamic>().Name("example")
-            .Columns(c => { c.Add().Name("test").Title("1er"); c.Add().Name("position").Title("Position"); })
+        @(Html.Redky().Grid<Product>().Name("example").RowId("id")
+            .Columns(cols => {
+                //cols.Add<Product>().Name("test").Title("1er");
+                cols.Add(c => c.Name).Name("position").Title("Position");
+                cols.Add(c => c.Price).Title("Prix");
+                cols.Add(c => c.Id).Data("id").Title("").Render(() => "onRender").Click("onClick");
+            })
             .ServerSide(true)
             .DataSource(c =>
                 c.Ajax().Url("/api/value").Method("GET")
@@ -16,3 +21,13 @@
         )
     </div>
 </div>
+
+<script>
+    function onRender(data, type, row, meta) {
+        return '<button data-type="view" class="btn btn-sm btn-default"><i class="fa fa-lg fa-fw fa-search"></i></button>';
+    }
+
+    function onClick(e) {
+        console.log(e);
+    }
+</script>
