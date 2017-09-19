@@ -6,40 +6,33 @@
 
 <div class="row">
     <div class="col-md-6 col-md-offset-3">
-        <table id="example" class="display" cellspacing="0" width="100%">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Position</th>
-                    <th>Office</th>
-                    <th>Extn.</th>
-                    <th>Start date</th>
-                    <th>Salary</th>
-                </tr>
-            </thead>
-            <tfoot>
-                <tr>
-                    <th>Name</th>
-                    <th>Position</th>
-                    <th>Office</th>
-                    <th>Extn.</th>
-                    <th>Start date</th>
-                    <th>Salary</th>
-                </tr>
-            </tfoot>
-        </table>
 
-        @(Html.Redky().Grid<dynamic>().Name("example")
-            .ColumnDefs(c => {
-                c.TargetAll().Searchable(true);
-                c.Targets(0).OrderData(1);
-                })
-            .PagingType(PagingType.Full_numbers)
+        @*<table id="example" class="display" cellspacing="0" width="100%">
+            </table>*@
+
+        @(Html.Redky().Grid<Product>().Name("example").RowId("id")
+            .Columns(cols =>
+            {
+                //cols.Add<Product>().Name("test").Title("1er");
+                cols.Add(c => c.Name).Name("position").Title("Position");
+                cols.Add(c => c.Price).Visible(false).Title("Prix");
+                cols.Add(c => c.Created).Title("Date");
+                cols.Add(c => c.Id).Data("id").Title("").Render(() => "onRender").Click("onClick");
+            })
             .ServerSide(true)
-            .DataSource(c => 
+            .DataSource(c =>
                 c.Ajax().Url("/api/value").Method("GET")
             )
         )
-
     </div>
 </div>
+
+<script>
+    function onRender(data, type, row, meta) {
+        return '<button data-type="view" class="btn btn-sm btn-default"><i class="fa fa-lg fa-fw fa-search"></i></button><button data-type="remove" class="btn btn-sm btn-default"><i class="fa fa-lg fa-fw fa-trash"></i></button>';
+    }
+
+    function onClick(e) {
+        console.log(e);
+    }
+</script>

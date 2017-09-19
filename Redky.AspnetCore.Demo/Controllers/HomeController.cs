@@ -25,11 +25,6 @@ namespace Redky.AspnetCore.Demo.Controllers
             return View();
         }
 
-        public IActionResult DescriptiveServerSide()
-        {
-            return View();
-        }
-
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";

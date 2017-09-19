@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Kendo.Mvc.Extensions;
+using Microsoft.AspNetCore.Mvc;
 using Redky.AspnetCore.Demo.Models;
 using Redky.AspnetCore.Mvc.Binder;
 using System;
@@ -15,12 +16,21 @@ namespace Redky.AspnetCore.Demo.Controllers
         public IActionResult Get([DataTablesRequest] DataTablesRequest dataRequest)
         {
             var products = Products.GetProducts();
-            return Json(new {
-                draw = dataRequest.Draw,
-                recordsTotal = products.Count(),
-                recordsFiltered = products.Count(),
-                data = products.Select(e => new {  Id = e.Id, Name = e.Name, Created = e.Created, Price = 10 })
-            });
+
+            if (!string.IsNullOrEmpty(dataRequest.Search?.Value))
+            {
+                products = products.Where(e => e.Name.Contains(dataRequest.Search.Value));
+            }
+
+            return Json(products
+                .Select(e => new { Id = e.Id, Name = e.Name, Created = e.Created, Price = 10 })
+                .ToDataTablesResponse(dataRequest));
+            //return Json(new {
+            //    draw = dataRequest.Draw,
+            //    recordsTotal = products.Count(),
+            //    recordsFiltered = products.Count(),
+            //    data = products.Select(e => new {  Id = e.Id, Name = e.Name, Created = e.Created, Price = 10 })
+            //});
         }
     }
 }
