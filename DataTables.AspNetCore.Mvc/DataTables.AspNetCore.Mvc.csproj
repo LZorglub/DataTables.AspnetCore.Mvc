@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -25,11 +25,11 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>bin\Release\netcoreapp2.0\DataTables.AspNetCore.Mvc.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\netstandard2.0\DataTables.AspNetCore.Mvc.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>bin\Debug\netcoreapp2.0\DataTables.AspNetCore.Mvc.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\netstandard2.0\DataTables.AspNetCore.Mvc.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
