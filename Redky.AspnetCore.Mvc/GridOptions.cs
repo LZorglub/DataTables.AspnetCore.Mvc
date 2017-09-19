@@ -18,6 +18,11 @@
         public bool Info { get; set; } = true;
 
         /// <summary>
+        /// Feature control deferred rendering for additional speed of initialisation.
+        /// </summary>
+        public bool DeferRender { get; set; } = false;
+
+        /// <summary>
         /// Multiple column ordering ability control.
         /// </summary>
         public bool OrderMulti { get; set; } = true;
@@ -71,5 +76,15 @@
         /// Feature control DataTables' server-side processing mode.
         /// </summary>
         public bool ServerSide { get; set; }
+
+        /// <summary>
+        /// Feature control DataTables' smart column width handling.
+        /// </summary>
+        public bool AutoWidth { get; set; } = true;
+
+        /// <summary>
+        /// Feature control search (filtering) abilities.
+        /// </summary>
+        public bool Searching { get; set; } = true;
     }
 }

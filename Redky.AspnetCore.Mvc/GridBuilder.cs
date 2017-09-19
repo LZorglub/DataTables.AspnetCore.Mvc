@@ -68,6 +68,28 @@ namespace Redky.AspnetCore.Mvc
         }
 
         /// <summary>
+        /// Feature control DataTables' smart column width handling.
+        /// </summary>
+        /// <param name="autoWidth"></param>
+        /// <returns></returns>
+        public GridBuilder<T> AutoWidth(bool autoWidth)
+        {
+            this.Grid.AutoWidth = autoWidth;
+            return this;
+        }
+
+        /// <summary>
+        /// Feature control deferred rendering for additional speed of initialisation.
+        /// </summary>
+        /// <param name="deferRender"></param>
+        /// <returns></returns>
+        public GridBuilder<T> DeferRender(bool deferRender)
+        {
+            this.Grid.DeferRender = deferRender;
+            return this;
+        }
+
+        /// <summary>
         /// Initial order (sort) to apply to the table.
         /// </summary>
         /// <param name="config"></param>
@@ -88,6 +110,17 @@ namespace Redky.AspnetCore.Mvc
         public GridBuilder<T> StateSave(bool stateSave)
         {
             this.Grid.StateSave = stateSave;
+            return this;
+        }
+
+        /// <summary>
+        /// Feature control search (filtering) abilities.
+        /// </summary>
+        /// <param name="searching"></param>
+        /// <returns></returns>
+        public GridBuilder<T> Searching(bool searching)
+        {
+            this.Grid.Searching = searching;
             return this;
         }
 
@@ -306,6 +339,8 @@ namespace Redky.AspnetCore.Mvc
             }
             if (!string.IsNullOrEmpty(this.Grid.RowId)) writer.Write($"\"rowId\":'{this.Grid.RowId}',");
             if (!string.IsNullOrEmpty(this.Grid.Dom)) writer.Write($"\"dom\":'{this.Grid.Dom}',");
+            if (!this.Grid.AutoWidth) writer.Write("\"autoWidth\":false,");
+            if (!this.Grid.Searching) writer.Write("\"searching\":false,");
             if (this.Grid.StateSave) writer.Write("\"stateSave\":true,");
             if (!this.Grid.Paging) writer.Write("\"paging\":false,");
             if (this.Grid.PagingType != Redky.AspnetCore.Mvc.PagingType.Simple_numbers) writer.Write($"\"pagingType\":\"{this.Grid.PagingType.ToString().ToLower()}\",");
@@ -317,6 +352,7 @@ namespace Redky.AspnetCore.Mvc
             if (!string.IsNullOrEmpty(this.Grid.ScrollY)) writer.Write($"\"scrollY\":\"{this.Grid.ScrollY}\",");
             if (this.Grid.Processing) writer.Write("\"processing\":true,");
             if (this.Grid.ServerSide) writer.Write("\"serverSide\":true,");
+            if (this.Grid.DeferRender) writer.Write("\"deferRender\":true,");
             if (this.OrderBuilder != null) this.OrderBuilder.WriteTo(writer, encoder);
             if (this.GridButtonsFactory != null) this.GridButtonsFactory.WriteTo(writer, encoder);
             if (this.ColumnsFactory!= null) this.ColumnsFactory.WriteTo(writer, encoder);
