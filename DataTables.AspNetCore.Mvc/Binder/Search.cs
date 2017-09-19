@@ -1,5 +1,8 @@
 ﻿namespace DataTables.AspNetCore.Mvc.Binder
 {
+    /// <summary>
+    /// Represents the search options
+    /// </summary>
     public class Search
     {
         /// <summary>
