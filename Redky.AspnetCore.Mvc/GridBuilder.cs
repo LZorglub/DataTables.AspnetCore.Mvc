@@ -13,22 +13,37 @@ namespace Redky.AspnetCore.Mvc
         /// <summary>
         /// Initialize a new instance of <see cref="GridBuilder"/>
         /// </summary>
-        /// <param name="grid"></param>
-        public GridBuilder(Grid<T> grid) 
+        public GridBuilder() 
         {
-            this.Grid = grid;
+            this.Grid = new GridOptions<T>();
         }
 
+        #region Properties
         /// <summary>
-        /// Gets the undelying <see cref="Grid{T}"/>
+        /// Gets the undelying <see cref="GridOptions{T}"/>
         /// </summary>
-        public Grid<T> Grid { get; }
-
+        internal GridOptions<T> Grid { get; }
+        /// <summary>
+        /// Gets or sets the <see cref="OrderBuilder"/>
+        /// </summary>
         private OrderBuilder OrderBuilder { get; set; }
+        /// <summary>
+        /// Gets or sets the <see cref="ColumnDefsFactory"/>
+        /// </summary>
         private ColumnDefsFactory ColumnDefsFactory { get; set; }
+        /// <summary>
+        /// Gets or sets the <see cref="GridDataSourceBuilder"/>
+        /// </summary>
         private GridDataSourceBuilder GridDataSourceBuilder { get; set; }
+        /// <summary>
+        /// Gets or sets the <see cref="ColumnsFactory"/>
+        /// </summary>
         private ColumnsFactory<T> ColumnsFactory { get; set; }
+        /// <summary>
+        /// Gets or sets the <see cref="GridButtonsFactory"/>
+        /// </summary>
         private GridButtonsFactory<T> GridButtonsFactory { get; set; }
+        #endregion
 
         /// <summary>
         /// Grid name
@@ -134,7 +149,7 @@ namespace Redky.AspnetCore.Mvc
         /// <summary>
         /// Data property name that DataTables will use to set tr element DOM IDs.
         /// </summary>
-        /// <param name="scrollCollapse"></param>
+        /// <param name="rowId"></param>
         /// <returns></returns>
         public GridBuilder<T> RowId(string rowId)
         {
@@ -213,6 +228,20 @@ namespace Redky.AspnetCore.Mvc
         /// <summary>
         /// Buttons configuration object.
         /// </summary>
+        /// <param name="name"></param>
+        /// <param name="config"></param>
+        /// <returns></returns>
+        public GridBuilder<T> Buttons(string name, Action<GridButtonsFactory<T>> config)
+        {
+            this.GridButtonsFactory = new GridButtonsFactory<T>(name);
+            config.Invoke(this.GridButtonsFactory);
+
+            return this;
+        }
+
+        /// <summary>
+        /// Buttons configuration object.
+        /// </summary>
         /// <param name="config"></param>
         /// <returns></returns>
         public GridBuilder<T> Buttons(Action<GridButtonsFactory<T>> config)
@@ -258,6 +287,15 @@ namespace Redky.AspnetCore.Mvc
         {
             bool withClick = this.ColumnsFactory != null && this.ColumnsFactory.Columns.Any(c => !string.IsNullOrEmpty(c.Column.Click));
 
+            // Check if element Grid.Name exists
+            //< script type = "text/javascript" >
+            //    if ($("#example").length == 0) {
+            //        document.write('<table id="example" class="display" cellspacing="0" width="100%"></table>')
+            //      }
+            //</ script >
+            writer.Write($"<script type=\"text/javascript\">if ($(\"{this.Grid.Name}\").length==0){{document.write('<table id=\"{this.Grid.Name}\" class=\"display\" cellspacing=\"0\" width=\"100%\"></table>')}}</script>");
+
+            // Datables.Net
             writer.Write("<script>$(function(){");
             if (withClick)
             {

@@ -2,6 +2,8 @@
     ViewData["Title"] = "Ajax - ServerSide";
 }
 
+<h2>ServerSide</h2>
+
 <div class="row">
     <div class="col-md-6 col-md-offset-3">
         <table id="example" class="display" cellspacing="0" width="100%">
@@ -29,7 +31,7 @@
 
         @(Html.Redky().Grid<dynamic>().Name("example")
             .ColumnDefs(c => {
-                c.TargetAll().Searchable(false);
+                c.TargetAll().Searchable(true);
                 c.Targets(0).OrderData(1);
                 })
             .PagingType(PagingType.Full_numbers)

@@ -16,6 +16,7 @@ namespace Redky.AspnetCore.Demo.Models
         [JsonProperty(PropertyName = "price")]
         public double Price { get; set; }
 
+        [JsonProperty(PropertyName = "created")]
         public DateTime Created { get; set; }
     }
 }

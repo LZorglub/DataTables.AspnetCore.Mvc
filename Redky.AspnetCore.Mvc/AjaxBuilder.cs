@@ -4,21 +4,37 @@ using Microsoft.AspNetCore.Html;
 
 namespace Redky.AspnetCore.Mvc
 {
+    /// <summary>
+    /// Represents a builder for ajax options
+    /// </summary>
     public class AjaxBuilder : IHtmlContent
     {
-        AjaxObject ajaxObject;
+        AjaxOptions ajaxObject;
 
+        /// <summary>
+        /// Initialize a new instance of <see cref="AjaxBuilder"/>
+        /// </summary>
         public AjaxBuilder()
         {
-            this.ajaxObject = new AjaxObject();
+            this.ajaxObject = new AjaxOptions();
         }
 
+        /// <summary>
+        /// Sets tha ajax url
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
         public AjaxBuilder Url(string url)
         {
             this.ajaxObject.Url = url;
             return this;
         }
 
+        /// <summary>
+        /// Sets the ajax method
+        /// </summary>
+        /// <param name="method"></param>
+        /// <returns></returns>
         public AjaxBuilder Method(string method)
         {
             this.ajaxObject.Method = method;

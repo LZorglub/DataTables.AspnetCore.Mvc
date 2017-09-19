@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Html;
+using System.Collections.Generic;
 using System.IO;
 using System.Text.Encodings.Web;
 
 namespace Redky.AspnetCore.Mvc
 {
-    public class GridButtonsFactory<T> where T : class
+    public class GridButtonsFactory<T> : IHtmlContent where T : class
     {
         IList<GridButtonBuilder> buttons;
         string name;
@@ -17,15 +18,9 @@ namespace Redky.AspnetCore.Mvc
             this.buttons = new List<GridButtonBuilder>();
         }
 
-        /// <summary>
-        /// Set a name for the instance for the group selector
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        public GridButtonsFactory<T> Name(string name)
+        public GridButtonsFactory(string name) : this()
         {
             this.name = name;
-            return this;
         }
 
         /// <summary>
@@ -36,7 +31,7 @@ namespace Redky.AspnetCore.Mvc
         public GridButtonBuilder Add(ButtonType buttonType)
         {
             GridButtonBuilder button = new GridButtonBuilder();
-            button.Extend(buttonType.ToString().ToLower());
+            button.Extend(buttonType);
             this.buttons.Add(button);
 
             return button;
@@ -45,7 +40,7 @@ namespace Redky.AspnetCore.Mvc
         /// <summary>
         /// Add a button to the factory
         /// </summary>
-        /// <param name="buttonType"></param>
+        /// <param name="text">Button text</param>
         /// <returns></returns>
         public GridButtonBuilder Add(string text)
         {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Redky.AspnetCore.Mvc
 {
-    class GridColumn
+    class GridColumnOptions
     {
         //columns.cellType
         //columns.className

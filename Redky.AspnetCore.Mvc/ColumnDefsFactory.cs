@@ -6,10 +6,16 @@ using System.Collections.Generic;
 
 namespace Redky.AspnetCore.Mvc
 {
+    /// <summary>
+    /// Represents a columnDefs factory
+    /// </summary>
     public class ColumnDefsFactory : IHtmlContent
     {
         IList<ColumnDefsTargets> targets;
 
+        /// <summary>
+        /// Initialize a new instance of <see cref="ColumnDefsFactory"/>
+        /// </summary>
         public ColumnDefsFactory()
         {
             this.targets = new List<ColumnDefsTargets>();

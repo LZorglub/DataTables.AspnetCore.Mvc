@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Redky.AspnetCore.Mvc
 {
+    /// <summary>
+    /// Represents cell type
+    /// </summary>
     public enum CellType
     {
         tr,

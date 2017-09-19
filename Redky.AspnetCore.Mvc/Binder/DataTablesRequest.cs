@@ -36,6 +36,15 @@ namespace Redky.AspnetCore.Mvc.Binder
         /// </summary>
         public IEnumerable<DataTableColumn> Columns { get; }
 
+        /// <summary>
+        /// Initialize a new instance of <see cref="DataTablesRequest"/>
+        /// </summary>
+        /// <param name="draw"></param>
+        /// <param name="start"></param>
+        /// <param name="length"></param>
+        /// <param name="search"></param>
+        /// <param name="orders"></param>
+        /// <param name="columns"></param>
         public DataTablesRequest(int draw, int start, int length, Search search, IEnumerable<Order> orders, IEnumerable<DataTableColumn> columns)
         {
             this.Draw = draw;

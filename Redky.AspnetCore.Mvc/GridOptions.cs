@@ -1,6 +1,6 @@
 ﻿namespace Redky.AspnetCore.Mvc
 {
-    public class Grid<T> where T : class
+    class GridOptions<T> where T : class
     {
         /// <summary>
         /// Enable or disable table pagination

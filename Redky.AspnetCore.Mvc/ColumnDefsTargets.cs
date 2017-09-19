@@ -9,11 +9,19 @@ using System.Text.Encodings.Web;
 
 namespace Redky.AspnetCore.Mvc
 {
+    /// <summary>
+    /// Represents columnDefs target
+    /// </summary>
     public class ColumnDefsTargets : IHtmlContent
     {
         private string target;
         private GridColumnsBuilder column;
 
+        /// <summary>
+        /// Initialize a new instance of <see cref="ColumnDefsTargets"/>
+        /// </summary>
+        /// <param name="target"></param>
+        /// <param name="column"></param>
         public ColumnDefsTargets(string target, GridColumnsBuilder column)
         {
             this.target = target;

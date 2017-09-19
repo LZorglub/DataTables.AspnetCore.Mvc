@@ -16,13 +16,13 @@ namespace Redky.AspnetCore.Mvc
         /// </summary>
         public GridColumnsBuilder()
         {
-            this.Column = new GridColumn();
+            this.Column = new GridColumnOptions();
         }
 
         /// <summary>
         /// Gets the internal column
         /// </summary>
-        internal GridColumn Column { get; }
+        internal GridColumnOptions Column { get; }
 
         /// <summary>
         /// Cell type to be created for a column.

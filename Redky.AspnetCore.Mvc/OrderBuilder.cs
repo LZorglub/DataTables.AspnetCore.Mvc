@@ -11,21 +11,37 @@ using System.ComponentModel;
 
 namespace Redky.AspnetCore.Mvc
 {
+    /// <summary>
+    /// Represents order of columns
+    /// </summary>
     public class OrderBuilder : IHtmlContent
     {
         internal ICollection<int> columns;
 
+        /// <summary>
+        /// Initialize a new isntance of <see cref="OrderBuilder"/>
+        /// </summary>
         public OrderBuilder()
         {
             this.columns = new HashSet<int>();
         }
 
+        /// <summary>
+        /// Direction so order to apply (asc for ascending order or desc for descending order).
+        /// </summary>
+        /// <param name="column"></param>
+        /// <returns></returns>
         public OrderBuilder Asc(UInt16 column)
         {
             columns.Add(column);
             return this;
         }
 
+        /// <summary>
+        /// Direction so order to apply (asc for ascending order or desc for descending order).
+        /// </summary>
+        /// <param name="column"></param>
+        /// <returns></returns>
         public OrderBuilder Desc(UInt16 column)
         {
             columns.Add(-column);

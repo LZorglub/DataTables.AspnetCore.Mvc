@@ -501,9 +501,9 @@
                 c.Targets(0).OrderData(1);
             })
             .PagingType(PagingType.Full_numbers)
-            .Buttons(b =>
+            .Buttons("primary", b =>
             {
-                b.Name("primary").Add(ButtonType.Copy);
+                b.Add(ButtonType.Copy);
                 b.Add(ButtonType.Excel);
                 b.Add(ButtonType.Print).Text("Imprimer");
             })

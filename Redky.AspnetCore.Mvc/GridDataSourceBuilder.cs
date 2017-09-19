@@ -9,10 +9,17 @@ using System.Text.Encodings.Web;
 
 namespace Redky.AspnetCore.Mvc
 {
+    /// <summary>
+    /// Represents the grid datasource
+    /// </summary>
     public class GridDataSourceBuilder : IHtmlContent
     {
         AjaxBuilder ajaxBuilder;
 
+        /// <summary>
+        /// Initialize a new instance of <see cref="AjaxBuilder"/>
+        /// </summary>
+        /// <returns></returns>
         public AjaxBuilder Ajax()
         {
             this.ajaxBuilder = new AjaxBuilder();

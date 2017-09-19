@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Redky.AspnetCore.Mvc
 {
-    public class PropertyBuilder
+    class PropertyBuilder
     {
         /// <summary>
         /// Get metadata of property referenced by expression. Type constrained.

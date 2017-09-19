@@ -10,19 +10,32 @@ namespace Redky.AspnetCore.Mvc
 {
     public class GridButtonBuilder
     {
-        GridButton gridButton;
+        GridButtonOptions gridButton;
 
+        /// <summary>
+        /// Initialize a new instance of <see cref="GridButtonBuilder"/>
+        /// </summary>
         public GridButtonBuilder()
         {
-            this.gridButton = new GridButton();
+            this.gridButton = new GridButtonOptions();
         }
 
-        public GridButtonBuilder Extend(string extend)
+        /// <summary>
+        /// Define which button type the button should be based on. 
+        /// </summary>
+        /// <param name="extend"></param>
+        /// <returns></returns>
+        public GridButtonBuilder Extend(ButtonType extend)
         {
-            this.gridButton.Extend = extend;
+            this.gridButton.Extend = extend.ToString().ToLower();
             return this;
         }
 
+        /// <summary>
+        /// The text to show in the button
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
         public GridButtonBuilder Text(string text)
         {
             this.gridButton.Text = text;
