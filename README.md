@@ -16,8 +16,13 @@ Add a link on datatables css and javascript files on your page
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/b-1.4.2/b-html5-1.4.2/b-print-1.4.2/sl-1.2.3/datatables.min.css" />
 <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.16/b-1.4.2/b-html5-1.4.2/b-print-1.4.2/sl-1.2.3/datatables.min.js"></script>
 ```
-
 Note that additional packages can be required for extensions.
+
+Add a using on the library in the _ViewImports.cshtml file.
+```javascript
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using DataTables.AspNetCore.Mvc
+```
 
 ## Basic initialisation
 The easy way  to use it with your own tables is to call the htmlHelper with our id table.
