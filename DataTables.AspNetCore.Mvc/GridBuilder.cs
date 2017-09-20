@@ -56,6 +56,10 @@ namespace DataTables.AspNetCore.Mvc
         /// Gets or sets the events builder
         /// </summary>
         private EventsBuilder EventsBuilder { get; set; }
+        /// <summary>
+        /// Gets or sets the language builder
+        /// </summary>
+        private LanguageBuilder LanguageBuilder { get; set; }
         #endregion
 
         /// <summary>
@@ -349,6 +353,19 @@ namespace DataTables.AspNetCore.Mvc
         }
 
         /// <summary>
+        /// Languages options
+        /// </summary>
+        /// <param name="languages"></param>
+        /// <returns></returns>
+        public GridBuilder<T> Languages(Action<LanguageBuilder> languages)
+        {
+            this.LanguageBuilder = new LanguageBuilder();
+            languages.Invoke(this.LanguageBuilder);
+
+            return this;
+        }
+
+        /// <summary>
         /// Writes the content by encoding it with the specified encoder to the specified writer
         /// </summary>
         /// <param name="writer">The <see cref="TextWriter"/> to which the content is written.</param>
@@ -391,6 +408,7 @@ namespace DataTables.AspNetCore.Mvc
             if (this.ColumnsFactory!= null) this.ColumnsFactory.WriteTo(writer, encoder);
             if (this.ColumnDefsFactory != null) this.ColumnDefsFactory.WriteTo(writer, encoder);
             if (this.GridDataSourceBuilder != null) this.GridDataSourceBuilder.WriteTo(writer, encoder);
+            if (this.LanguageBuilder != null) this.LanguageBuilder.WriteTo(writer, encoder);
             if (this.SelectBuilder != null) this.SelectBuilder.WriteTo(writer, encoder);
             writer.Write("});");
 
