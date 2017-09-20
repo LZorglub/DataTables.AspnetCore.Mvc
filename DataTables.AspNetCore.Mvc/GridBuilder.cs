@@ -47,6 +47,14 @@ namespace DataTables.AspNetCore.Mvc
         /// Gets or sets the <see cref="GridButtonsFactory"/>
         /// </summary>
         private GridButtonsFactory<T> GridButtonsFactory { get; set; }
+        /// <summary>
+        /// Gets or sets the <see cref="SelectBuilder"/>
+        /// </summary>
+        private SelectBuilder SelectBuilder { get; set; }
+        /// <summary>
+        /// Gets or sets the events builder
+        /// </summary>
+        private EventsBuilder EventsBuilder { get; set; }
         #endregion
 
         /// <summary>
@@ -277,6 +285,18 @@ namespace DataTables.AspNetCore.Mvc
         }
 
         /// <summary>
+        /// Set the selection style for end user interaction with the table
+        /// </summary>
+        /// <param name="select"></param>
+        /// <returns></returns>
+        public GridBuilder<T> Select(Action<SelectBuilder> select)
+        {
+            this.SelectBuilder = new SelectBuilder();
+            select.Invoke(this.SelectBuilder);
+            return this;
+        }
+
+        /// <summary>
         /// Buttons configuration object.
         /// </summary>
         /// <param name="config"></param>
@@ -299,6 +319,18 @@ namespace DataTables.AspNetCore.Mvc
             this.ColumnDefsFactory = new ColumnDefsFactory();
             config.Invoke(this.ColumnDefsFactory);
 
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the events of dataTable
+        /// </summary>
+        /// <param name="events"></param>
+        /// <returns></returns>
+        public GridBuilder<T> Events(Action<EventsBuilder> events)
+        {
+            this.EventsBuilder = new EventsBuilder();
+            events.Invoke(this.EventsBuilder);
             return this;
         }
 
@@ -334,13 +366,7 @@ namespace DataTables.AspNetCore.Mvc
 
             // Datables.Net
             writer.Write("<script>$(function(){");
-            if (withClick)
-            {
-                writer.Write($"var grid=$('#{this.Grid.Name}');var dt=grid.DataTable({{");
-            } else
-            {
-                writer.Write($"$('#{this.Grid.Name}').DataTable({{");
-            }
+            writer.Write($"var g=$('#{this.Grid.Name}');var dt=g.DataTable({{");
             if (!string.IsNullOrEmpty(this.Grid.RowId)) writer.Write($"\"rowId\":'{this.Grid.RowId}',");
             if (!string.IsNullOrEmpty(this.Grid.Dom)) writer.Write($"\"dom\":'{this.Grid.Dom}',");
             if (!this.Grid.AutoWidth) writer.Write("\"autoWidth\":false,");
@@ -362,13 +388,14 @@ namespace DataTables.AspNetCore.Mvc
             if (this.ColumnsFactory!= null) this.ColumnsFactory.WriteTo(writer, encoder);
             if (this.ColumnDefsFactory != null) this.ColumnDefsFactory.WriteTo(writer, encoder);
             if (this.GridDataSourceBuilder != null) this.GridDataSourceBuilder.WriteTo(writer, encoder);
-
+            if (this.SelectBuilder != null) this.SelectBuilder.WriteTo(writer, encoder);
             writer.Write("});");
 
+            if (this.EventsBuilder != null) this.EventsBuilder.WriteTo(writer, encoder);
             if (withClick)
             {
                 writer.Write("var fn=[" + string.Join(",",this.ColumnsFactory.Columns.Select(e => e.Column.Click)) + "];");
-                writer.Write("grid.on('click','button',function(){var row=dt.row($(this).parents('tr'));var i=dt.column($(this).parents('td')).index();if (fn.length>i){fn[i]({data:$(this).data(),rowid:row.id(),row:row.data()});}});");
+                writer.Write("g.on('click','button',function(){var row=dt.row($(this).parents('tr'));var i=dt.column($(this).parents('td')).index();if (fn.length>i){fn[i]({data:$(this).data(),rowid:row.id(),row:row.data()});}});");
                 writer.Write("});</script>");
             }
             else

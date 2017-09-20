@@ -35,6 +35,17 @@ namespace DataTables.AspNetCore.Mvc
         }
 
         /// <summary>
+        /// Action to take when the button is activated.
+        /// </summary>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        public GridButtonBuilder Action(Func<string> action)
+        {
+            this.gridButton.Action = action();
+            return this;
+        }
+
+        /// <summary>
         /// The text to show in the button
         /// </summary>
         /// <param name="text"></param>
@@ -54,7 +65,8 @@ namespace DataTables.AspNetCore.Mvc
         {
             writer.Write("{");
             if (!string.IsNullOrEmpty(this.gridButton.Text)) writer.Write($"\"text\":'{this.gridButton.Text}',");
-            if (!string.IsNullOrEmpty(this.gridButton.Extend)) writer.Write($"\"extend\":'{this.gridButton.Extend}'");
+            if (!string.IsNullOrEmpty(this.gridButton.Extend)) writer.Write($"\"extend\":'{this.gridButton.Extend}',");
+            if (!string.IsNullOrEmpty(this.gridButton.Action)) writer.Write($"\"action\":function(e,dt,node,config){{{this.gridButton.Action}(e,dt,node,config);}}");
             writer.Write("}");
         }
 

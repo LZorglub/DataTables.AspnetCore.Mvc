@@ -20,5 +20,10 @@ namespace DataTables.AspNetCore.Mvc
         /// The text to show in the button
         /// </summary>
         public string Text { get; set; }
+
+        /// <summary>
+        /// Action to take when the button is activated.
+        /// </summary>
+        public string Action { get; set; }
     }
 }

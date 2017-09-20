@@ -20,6 +20,10 @@ namespace DataTables.AspNetCore.Mvc
         /// <summary>
         /// Copy
         /// </summary>
-        Copy
+        Copy,
+        /// <summary>
+        /// Selected button provide by Select extension
+        /// </summary>
+        Selected
     }
 }
