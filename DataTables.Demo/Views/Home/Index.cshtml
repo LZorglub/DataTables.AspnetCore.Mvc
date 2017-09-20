@@ -533,19 +533,20 @@
                 </table>
 
                 @(Html.Ext().Grid<dynamic>().Name("example2")
-            .Dom("B<\"clear\">lfrtip")
-            .ColumnDefs(c =>
-            {
-                c.TargetAll().Searchable(false);
-                c.Targets(0).OrderData(1);
-            })
-            .PagingType(PagingType.Full_numbers)
-            .Buttons("primary", b =>
-            {
-                b.Add(ButtonType.Copy);
-                b.Add(ButtonType.Excel);
-                b.Add(ButtonType.Print).Text("Print");
-            })
+    .Dom("B<\"clear\">lfrtip")
+    .ColumnDefs(c =>
+    {
+        c.TargetAll().Searchable(false);
+        c.Targets(0).OrderData(1);
+    })
+    .PagingType(PagingType.Full_numbers)
+    .Buttons("primary", b =>
+    {
+        b.Add(ButtonType.Copy);
+        b.Add(ButtonType.Excel);
+        b.Add(ButtonType.Print).Text("Print");
+    })
+    .Order(o => o.Desc(1))
             .Languages(lg => lg.Url("https://cdn.datatables.net/plug-ins/1.10.16/i18n/French.json"))
                 )
 

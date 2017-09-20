@@ -8,13 +8,14 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Text.Encodings.Web;
 using System.ComponentModel;
+using Newtonsoft.Json.Linq;
 
 namespace DataTables.AspNetCore.Mvc
 {
     /// <summary>
     /// Represents order of columns
     /// </summary>
-    public class OrderBuilder : IHtmlContent
+    public class OrderBuilder : IJToken
     {
         internal ICollection<int> columns;
 
@@ -49,29 +50,21 @@ namespace DataTables.AspNetCore.Mvc
         }
 
         /// <summary>
-        /// Writes the content by encoding it with the specified encoder to the specified writer
+        /// Gets the <see cref="JToken"/> of current instance
         /// </summary>
-        /// <param name="writer">The <see cref="TextWriter"/> to which the content is written.</param>
-        /// <param name="encoder">The System.Text.Encodings.Web.HtmlEncoder which encodes the content to be written.</param>
+        /// <returns></returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public void WriteTo(TextWriter writer, HtmlEncoder encoder)
+        public JToken ToJToken()
         {
-            if (columns.Count() != 0)
+            JArray jArray = new JArray();
+            foreach(int col in columns)
             {
-                writer.Write("\"order\":[");
-                foreach (int col in columns)
-                {
-                    if (col < 0)
-                    {
-                        writer.Write($"[{-col},'desc'],");
-                    }
-                    else
-                    {
-                        writer.Write($"[{col},'asc'],");
-                    }
-                }
-                writer.Write("],");
+                if (col < 0)
+                    jArray.Add(new JArray(new JValue(-col), new JValue("desc")));
+                else
+                    jArray.Add(new JArray(new JValue(col), new JValue("asc")));
             }
+            return jArray;
         }
 
         #region Hide object method 

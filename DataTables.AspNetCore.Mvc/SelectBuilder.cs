@@ -7,13 +7,14 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Text.Encodings.Web;
 using System.ComponentModel;
+using Newtonsoft.Json.Linq;
 
 namespace DataTables.AspNetCore.Mvc
 {
     /// <summary>
     /// Represents the select xtension builder
     /// </summary>
-    public class SelectBuilder : IHtmlContent
+    public class SelectBuilder : IJToken
     {
         SelectOptions select;
 
@@ -92,29 +93,27 @@ namespace DataTables.AspNetCore.Mvc
         }
 
         /// <summary>
-        /// Writes the content by encoding it with the specified encoder to the specified writer
+        /// Gets the <see cref="JToken"/> of current instance
         /// </summary>
-        /// <param name="writer">The <see cref="TextWriter"/> to which the content is written.</param>
-        /// <param name="encoder">The System.Text.Encodings.Web.HtmlEncoder which encodes the content to be written.</param>
-
+        /// <returns></returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public void WriteTo(TextWriter writer, HtmlEncoder encoder)
+        public JToken ToJToken()
         {
-            writer.Write("\"select\":{");
+            JObject jObject = new JObject();
             if (this.select.Style == SelectStyle.MultiShift)
             {
-                writer.Write($"style:'multi+shift',");
+                jObject.Add("style", new JValue("multi+shift"));
             }
             else
             {
-                writer.Write($"style:'{this.select.Style.ToString().ToLower()}',");
+                jObject.Add("style", new JValue(this.select.Style.ToString().ToLower()));
             }
-            if (this.select.Blurable) writer.Write("blurable:true,");
-            if (!string.IsNullOrEmpty(this.select.ClassName)) writer.Write($"className:'{this.select.ClassName}',");
-            if (!this.select.Info) writer.Write("info:false,");
-            if (this.select.Items != SelectItemsType.Row) writer.Write($"items:'{this.select.Items.ToString().ToLower()}',");
-            if (!string.IsNullOrEmpty(this.select.Selector)) { writer.Write($"selector:'{this.select.Selector}',"); }
-            writer.Write("},");
+            if (this.select.Blurable) jObject.Add("blurable", new JValue(true));
+            if (!string.IsNullOrEmpty(this.select.ClassName)) jObject.Add("className", new JValue(this.select.ClassName));
+            if (!this.select.Info) jObject.Add("info", new JValue(false));
+            if (this.select.Items != SelectItemsType.Row) jObject.Add("items", new JValue(this.select.Items.ToString().ToLower()));
+            if (!string.IsNullOrEmpty(this.select.Selector)) jObject.Add("selector", new JValue(this.select.Selector));
+            return jObject;
         }
     }
 }

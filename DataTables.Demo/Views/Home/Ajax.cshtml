@@ -36,7 +36,7 @@
                 })
             .PagingType(PagingType.Full_numbers)
             .DataSource(c => 
-                c.Ajax().Url("/data/arrays.json").Method("GET")
+                c.Ajax().Url("/data/arrays.json").Method("GET").DataSrc("data")
             )
         )
 

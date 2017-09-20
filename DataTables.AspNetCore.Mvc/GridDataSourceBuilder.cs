@@ -7,13 +7,14 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Text.Encodings.Web;
 using System.ComponentModel;
+using Newtonsoft.Json.Linq;
 
 namespace DataTables.AspNetCore.Mvc
 {
     /// <summary>
     /// Represents the grid datasource
     /// </summary>
-    public class GridDataSourceBuilder : IHtmlContent
+    public class GridDataSourceBuilder : IJToken
     {
         AjaxBuilder ajaxBuilder;
 
@@ -28,17 +29,13 @@ namespace DataTables.AspNetCore.Mvc
         }
 
         /// <summary>
-        /// Writes the content by encoding it with the specified encoder to the specified writer
+        /// Gets the <see cref="JToken"/> of current instance
         /// </summary>
-        /// <param name="writer">The <see cref="TextWriter"/> to which the content is written.</param>
-        /// <param name="encoder">The System.Text.Encodings.Web.HtmlEncoder which encodes the content to be written.</param>
+        /// <returns></returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public void WriteTo(TextWriter writer, HtmlEncoder encoder)
+        public JToken ToJToken()
         {
-            if (this.ajaxBuilder != null)
-            {
-                this.ajaxBuilder.WriteTo(writer, encoder);
-            }
+            return this.ajaxBuilder?.ToJToken();
         }
     }
 }

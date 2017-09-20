@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Html;
 using System.Text.Encodings.Web;
 using System.Linq;
 using System.ComponentModel;
+using Newtonsoft.Json.Linq;
 
 namespace DataTables.AspNetCore.Mvc
 {
@@ -386,7 +387,38 @@ namespace DataTables.AspNetCore.Mvc
 
             // Datables.Net
             writer.Write("<script>$(function(){");
-            writer.Write($"var g=$('#{this.Grid.Name}');var dt=g.DataTable({{");
+            writer.Write($"var g=$('#{this.Grid.Name}');var dt=g.DataTable(");
+
+            JObject jObject = new JObject();
+            if (!string.IsNullOrEmpty(this.Grid.RowId)) jObject.Add("rowId", new JValue(this.Grid.RowId));
+            if (!string.IsNullOrEmpty(this.Grid.Dom)) jObject.Add("dom", new JValue(this.Grid.Dom));
+            if (!this.Grid.AutoWidth) jObject.Add("autoWidth", new JValue(false));
+            if (!this.Grid.Searching) jObject.Add("searching", new JValue(false));
+            if (this.Grid.StateSave) jObject.Add("stateSave", new JValue(true));
+            if (!this.Grid.Paging) jObject.Add("paging", new JValue(false));
+            if (this.Grid.PagingType != DataTables.AspNetCore.Mvc.PagingType.Simple_numbers) jObject.Add($"pagingType", new JValue(this.Grid.PagingType.ToString().ToLower()));
+            if (!this.Grid.Ordering) jObject.Add("ordering", new JValue(false));
+            if (!this.Grid.Info) jObject.Add("info", new JValue(false));
+            if (!this.Grid.OrderMulti) jObject.Add("orderMulti", new JValue(false));
+            if (this.Grid.ScrollCollapse) jObject.Add("scrollCollapse", new JValue(true));
+            if (this.Grid.ScrollX) jObject.Add("scrollX", new JValue(true));
+            if (!string.IsNullOrEmpty(this.Grid.ScrollY)) jObject.Add($"scrollY", new JValue(this.Grid.ScrollY));
+            if (this.Grid.Processing) jObject.Add("processing", new JValue(true));
+            if (this.Grid.ServerSide) jObject.Add("serverSide", new JValue(true));
+            if (this.Grid.DeferRender) jObject.Add("deferRender", new JValue(true));
+            if (this.GridDataSourceBuilder != null) jObject.Add("ajax", this.GridDataSourceBuilder.ToJToken());
+            if (this.SelectBuilder != null) jObject.Add("select", this.SelectBuilder.ToJToken());
+            if (this.OrderBuilder != null) jObject.Add("order", this.OrderBuilder.ToJToken());
+            if (this.LanguageBuilder != null) jObject.Add("language", this.LanguageBuilder.ToJToken());
+            /*
+            if (this.GridButtonsFactory != null) this.GridButtonsFactory.WriteTo(writer, encoder);
+            if (this.ColumnsFactory != null) this.ColumnsFactory.WriteTo(writer, encoder);
+            if (this.ColumnDefsFactory != null) this.ColumnDefsFactory.WriteTo(writer, encoder);
+            */
+            writer.Write(jObject.ToString(Newtonsoft.Json.Formatting.None));
+            writer.Write(");");
+
+            /*
             if (!string.IsNullOrEmpty(this.Grid.RowId)) writer.Write($"\"rowId\":'{this.Grid.RowId}',");
             if (!string.IsNullOrEmpty(this.Grid.Dom)) writer.Write($"\"dom\":'{this.Grid.Dom}',");
             if (!this.Grid.AutoWidth) writer.Write("\"autoWidth\":false,");
@@ -411,6 +443,7 @@ namespace DataTables.AspNetCore.Mvc
             if (this.LanguageBuilder != null) this.LanguageBuilder.WriteTo(writer, encoder);
             if (this.SelectBuilder != null) this.SelectBuilder.WriteTo(writer, encoder);
             writer.Write("});");
+            */
 
             if (this.EventsBuilder != null) this.EventsBuilder.WriteTo(writer, encoder);
             if (withClick)

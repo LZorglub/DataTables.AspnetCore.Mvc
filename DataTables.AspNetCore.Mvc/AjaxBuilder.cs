@@ -2,13 +2,14 @@
 using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Html;
 using System.ComponentModel;
+using Newtonsoft.Json.Linq;
 
 namespace DataTables.AspNetCore.Mvc
 {
     /// <summary>
     /// Represents a builder for ajax options
     /// </summary>
-    public class AjaxBuilder : IHtmlContent
+    public class AjaxBuilder : IJToken
     {
         AjaxOptions ajaxObject;
 
@@ -54,18 +55,18 @@ namespace DataTables.AspNetCore.Mvc
         }
 
         /// <summary>
-        /// Writes the content by encoding it with the specified encoder to the specified writer
+        /// Gets the <see cref="JToken"/> of current instance
         /// </summary>
-        /// <param name="writer">The <see cref="TextWriter"/> to which the content is written.</param>
-        /// <param name="encoder">The System.Text.Encodings.Web.HtmlEncoder which encodes the content to be written.</param>
+        /// <returns></returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public void WriteTo(TextWriter writer, HtmlEncoder encoder)
+        public JToken ToJToken()
         {
-            writer.Write("\"ajax\":{");
-            writer.Write($"\"url\":\"{this.ajaxObject.Url}\",");
-            if (!string.IsNullOrEmpty(this.ajaxObject.Method)) writer.Write($"\"method\":\"{this.ajaxObject.Method}\",");
-            if (this.ajaxObject.DataSrc != null) writer.Write($"\"dataSrc\":\"{this.ajaxObject.DataSrc}\",");
-            writer.Write("},");
+            JObject jObject = new JObject();
+            jObject.Add("url", new JValue(this.ajaxObject.Url));
+            if (!string.IsNullOrEmpty(this.ajaxObject.Method)) jObject.Add("method", new JValue(this.ajaxObject.Method));
+            if (this.ajaxObject.DataSrc != null) jObject.Add("dataSrc",new JValue(this.ajaxObject.DataSrc));
+
+            return jObject;
         }
     }
 }
