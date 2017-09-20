@@ -50,9 +50,9 @@ External datasource can be set with Datasource method. The datasource option use
         )
 ```
 
-If json source didn't match your table header you must define your dataTable columns as explain [here](https://datatables.net/manual/ajax)
+If json source didn't match your header table it's required to define your columns as explain [here](https://datatables.net/manual/ajax)
 
-This sample map the 3 table columns with json properties name, position and office.
+This sample map the columns with the json properties : name, position and office.
 ```javascript
         @(Html.Ext().Grid<dynamic>().Name("example")
             .DataSource(c => 
@@ -238,3 +238,5 @@ Following sample enable the Select extension and catch select/deselect events
             </tbody>
         </table>
 
+#External link:
+[DataTables.Net](https://datatables.net/)
