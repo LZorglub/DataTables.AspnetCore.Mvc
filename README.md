@@ -238,5 +238,5 @@ Following sample enable the Select extension and catch select/deselect events
             </tbody>
         </table>
 
-#External link:
+# External links:
 [DataTables.Net](https://datatables.net/)
