@@ -18,7 +18,7 @@
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageTags>datatables net htmlhelper bootstrap</PackageTags>
     <PackageProjectUrl>https://github.com/LZorglub/DataTables.AspnetCore.Mvc</PackageProjectUrl>
-    <PackageIconUrl></PackageIconUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/LZorglub/DataTables.AspnetCore.Mvc/master/table64x64.png</PackageIconUrl>
     <Authors>Luc</Authors>
     <Title>DataTables.AspNetCore.Mvc</Title>
     <Copyright>Copyright 2017</Copyright>

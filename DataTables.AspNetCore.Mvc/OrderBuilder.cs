@@ -53,6 +53,7 @@ namespace DataTables.AspNetCore.Mvc
         /// </summary>
         /// <param name="writer">The <see cref="TextWriter"/> to which the content is written.</param>
         /// <param name="encoder">The System.Text.Encodings.Web.HtmlEncoder which encodes the content to be written.</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public void WriteTo(TextWriter writer, HtmlEncoder encoder)
         {
             if (columns.Count() != 0)
@@ -73,6 +74,7 @@ namespace DataTables.AspNetCore.Mvc
             }
         }
 
+        #region Hide object method 
         /// <summary>
         /// Determines whether the specified object is equal to the current object
         /// </summary>
@@ -89,18 +91,11 @@ namespace DataTables.AspNetCore.Mvc
         public override int GetHashCode() { return base.GetHashCode(); }
 
         /// <summary>
-        /// Gets the <see cref="Type"/> of current instance
-        /// </summary>
-        /// <returns></returns>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public new Type GetType() { return base.GetType(); }
-
-        /// <summary>
         /// Returns a string that represents the current object
         /// </summary>
         /// <returns></returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override string ToString() { return base.ToString(); }
-
+        #endregion
     }
 }

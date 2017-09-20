@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Html;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq.Expressions;
 using System.Text;
@@ -73,6 +74,7 @@ namespace DataTables.AspNetCore.Mvc
         /// </summary>
         /// <param name="writer">The <see cref="TextWriter"/> to which the content is written.</param>
         /// <param name="encoder">The System.Text.Encodings.Web.HtmlEncoder which encodes the content to be written.</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public void WriteTo(TextWriter writer, HtmlEncoder encoder)
         {
             writer.Write("\"columns\":[");
