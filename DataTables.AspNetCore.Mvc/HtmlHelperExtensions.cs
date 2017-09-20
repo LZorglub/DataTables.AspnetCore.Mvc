@@ -18,7 +18,7 @@ namespace DataTables.AspNetCore.Mvc
         /// <typeparam name="TModel"></typeparam>
         /// <param name="htmlHelper"></param>
         /// <returns></returns>
-        public static ControlBuilder<TModel> Redky<TModel>(this IHtmlHelper<TModel> htmlHelper) where TModel : class
+        public static ControlBuilder<TModel> Ext<TModel>(this IHtmlHelper<TModel> htmlHelper) where TModel : class
         {
             return new ControlBuilder<TModel>(htmlHelper);
         }

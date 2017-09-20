@@ -29,7 +29,7 @@
             </tfoot>
         </table>
 
-        @(Html.Redky().Grid<dynamic>().Name("example")
+        @(Html.Ext().Grid<dynamic>().Name("example")
             .ColumnDefs(c => {
                 c.TargetAll().Searchable(true);
                 c.Targets(0).OrderData(1);

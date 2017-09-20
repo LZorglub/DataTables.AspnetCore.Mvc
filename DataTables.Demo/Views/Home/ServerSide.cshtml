@@ -33,7 +33,7 @@
         @*<table id="example" class="display" cellspacing="0" width="100%">
             </table>*@
 
-        @(Html.Redky().Grid<Product>().Name("example").RowId("id")
+        @(Html.Ext().Grid<Product>().Name("example").RowId("id")
             .Columns(cols =>
             {
                 cols.Add(c => c.Name).Title("Name");

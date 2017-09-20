@@ -42,6 +42,17 @@ namespace DataTables.AspNetCore.Mvc
         }
 
         /// <summary>
+        /// Data property or manipulation method for table data.
+        /// </summary>
+        /// <param name="dataSrc"></param>
+        /// <returns></returns>
+        public AjaxBuilder DataSrc(string dataSrc)
+        {
+            this.ajaxObject.DataSrc = dataSrc;
+            return this;
+        }
+
+        /// <summary>
         /// Writes the content by encoding it with the specified encoder to the specified writer
         /// </summary>
         /// <param name="writer">The <see cref="TextWriter"/> to which the content is written.</param>
@@ -51,6 +62,7 @@ namespace DataTables.AspNetCore.Mvc
             writer.Write("\"ajax\":{");
             writer.Write($"\"url\":\"{this.ajaxObject.Url}\",");
             if (!string.IsNullOrEmpty(this.ajaxObject.Method)) writer.Write($"\"method\":\"{this.ajaxObject.Method}\",");
+            if (this.ajaxObject.DataSrc != null) writer.Write($"\"dataSrc\":\"{this.ajaxObject.DataSrc}\",");
             writer.Write("},");
         }
     }

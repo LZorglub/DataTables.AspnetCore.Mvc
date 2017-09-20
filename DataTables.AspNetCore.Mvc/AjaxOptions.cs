@@ -20,5 +20,10 @@ namespace DataTables.AspNetCore.Mvc
         /// Gets or sets the ajax method
         /// </summary>
         public string Method { get; set; }
+
+        /// <summary>
+        /// Data property or manipulation method for table data.
+        /// </summary>
+        public string DataSrc { get; set; }
     }
 }

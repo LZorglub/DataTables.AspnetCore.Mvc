@@ -354,6 +354,7 @@ namespace DataTables.AspNetCore.Mvc
         /// <param name="encoder">The System.Text.Encodings.Web.HtmlEncoder which encodes the content to be written.</param>
         public void WriteTo(TextWriter writer, HtmlEncoder encoder)
         {
+            if (string.IsNullOrEmpty(this.Grid.Name)) throw new ArgumentException("Name property required on grid.");
             bool withClick = this.ColumnsFactory != null && this.ColumnsFactory.Columns.Any(c => !string.IsNullOrEmpty(c.Column.Click));
 
             // Check if element Grid.Name exists
