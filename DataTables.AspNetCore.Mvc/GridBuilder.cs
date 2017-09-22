@@ -410,11 +410,9 @@ namespace DataTables.AspNetCore.Mvc
             if (this.SelectBuilder != null) jObject.Add("select", this.SelectBuilder.ToJToken());
             if (this.OrderBuilder != null) jObject.Add("order", this.OrderBuilder.ToJToken());
             if (this.LanguageBuilder != null) jObject.Add("language", this.LanguageBuilder.ToJToken());
-            /*
-            if (this.GridButtonsFactory != null) this.GridButtonsFactory.WriteTo(writer, encoder);
-            if (this.ColumnsFactory != null) this.ColumnsFactory.WriteTo(writer, encoder);
-            if (this.ColumnDefsFactory != null) this.ColumnDefsFactory.WriteTo(writer, encoder);
-            */
+            if (this.GridButtonsFactory != null) jObject.Add("buttons", this.GridButtonsFactory.ToJToken());
+            if (this.ColumnDefsFactory != null) jObject.Add("columnDefs", this.ColumnDefsFactory.ToJToken());
+            if (this.ColumnsFactory != null) jObject.Add("columns", this.ColumnsFactory.ToJToken());
             writer.Write(jObject.ToString(Newtonsoft.Json.Formatting.None));
             writer.Write(");");
 

@@ -49,7 +49,7 @@ namespace DataTables.AspNetCore.Mvc
         /// Set the data source for the column from the rows data object / array.
         /// </summary>
         /// <remarks>See https://datatables.net/reference/option/columns.data</remarks>
-        public string Data { get; set; }
+        public object Data { get; set; }
 
         /// <summary>
         /// Set default, static, content for a column.
@@ -69,7 +69,7 @@ namespace DataTables.AspNetCore.Mvc
         /// <summary>
         /// Define multiple column ordering as the default order for a column.
         /// </summary>
-        public string OrderData { get; set; }
+        public int[] OrderData { get; set; }
 
         /// <summary>
         /// Live DOM sorting type assignment.

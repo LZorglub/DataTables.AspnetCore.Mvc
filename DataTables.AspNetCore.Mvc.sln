@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataTables.AspNetCore.Mvc",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataTables.Demo", "DataTables.Demo\DataTables.Demo.csproj", "{813C68BA-C33B-4B3F-BC0E-A99DEF0449C5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataTables.Tests", "DataTables.Tests\DataTables.Tests.csproj", "{2A1889DC-CA41-4F0D-B7F3-47B73198B59C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{813C68BA-C33B-4B3F-BC0E-A99DEF0449C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{813C68BA-C33B-4B3F-BC0E-A99DEF0449C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{813C68BA-C33B-4B3F-BC0E-A99DEF0449C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A1889DC-CA41-4F0D-B7F3-47B73198B59C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A1889DC-CA41-4F0D-B7F3-47B73198B59C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A1889DC-CA41-4F0D-B7F3-47B73198B59C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A1889DC-CA41-4F0D-B7F3-47B73198B59C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

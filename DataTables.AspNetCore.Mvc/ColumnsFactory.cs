@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Html;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,7 +14,7 @@ namespace DataTables.AspNetCore.Mvc
     /// Represents a factory of <see cref="GridColumnsBuilder"/>
     /// </summary>
     /// <typeparam name="TModel"></typeparam>
-    public class ColumnsFactory<TModel> : IHtmlContent where TModel : class
+    public class ColumnsFactory<TModel> : IJToken where TModel : class
     {
         /// <summary>
         /// Initialize a new instance of <see cref="ColumnsFactory{TModel}"/>
@@ -70,22 +71,18 @@ namespace DataTables.AspNetCore.Mvc
         }
 
         /// <summary>
-        /// Writes the content by encoding it with the specified encoder to the specified writer
+        /// Gets the <see cref="JToken"/> of current instance
         /// </summary>
-        /// <param name="writer">The <see cref="TextWriter"/> to which the content is written.</param>
-        /// <param name="encoder">The System.Text.Encodings.Web.HtmlEncoder which encodes the content to be written.</param>
+        /// <returns></returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public void WriteTo(TextWriter writer, HtmlEncoder encoder)
+        public JToken ToJToken()
         {
-            writer.Write("\"columns\":[");
+            JArray jArray = new JArray();
             for (int i = 0; i < Columns.Count; i++)
             {
-                if (i != 0) writer.Write(",");
-                writer.Write("{");
-                Columns[i].WriteTo(writer, encoder);
-                writer.Write("}");
+                jArray.Add(Columns[i].ToJToken());
             }
-            writer.Write("],");
+            return jArray;
         }
     }
 }

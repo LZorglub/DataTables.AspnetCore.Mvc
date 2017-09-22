@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Html;
+using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -10,7 +11,7 @@ namespace DataTables.AspNetCore.Mvc
     /// Represents a factory of grid button
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class GridButtonsFactory<T> : IHtmlContent where T : class
+    public class GridButtonsFactory<T> : IJToken where T : class
     {
         IList<GridButtonBuilder> buttons;
         string name;
@@ -60,25 +61,24 @@ namespace DataTables.AspNetCore.Mvc
         }
 
         /// <summary>
-        /// Writes the content by encoding it with the specified encoder to the specified writer
+        /// Gets the <see cref="JToken"/> of current instance
         /// </summary>
-        /// <param name="writer">The <see cref="TextWriter"/> to which the content is written.</param>
-        /// <param name="encoder">The System.Text.Encodings.Web.HtmlEncoder which encodes the content to be written.</param>
+        /// <returns></returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public void WriteTo(TextWriter writer, HtmlEncoder encoder)
+        public JToken ToJToken()
         {
+            JObject jObject = new JObject();
             if (this.buttons.Count > 0)
             {
-                writer.Write("\"buttons\":{");
-                if (!string.IsNullOrEmpty(name)) writer.Write($"\"name\":'{name}',");
-                writer.Write("\"buttons\":[");
+                if (!string.IsNullOrEmpty(name)) jObject.Add("name", name);
+                JArray jArray = new JArray();
                 for (int i = 0; i < buttons.Count; i++)
                 {
-                    if (i != 0) writer.Write(",");
-                    buttons[i].WriteTo(writer, encoder);
+                    jArray.Add(buttons[i].ToJToken());
                 }
-                writer.Write("]},");
+                jObject.Add("buttons", jArray);
             }
+            return jObject;
         }
     }
 }

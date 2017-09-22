@@ -7,13 +7,14 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Text.Encodings.Web;
 using System.ComponentModel;
+using Newtonsoft.Json.Linq;
 
 namespace DataTables.AspNetCore.Mvc
 {
     /// <summary>
     /// Represents columnDefs target
     /// </summary>
-    public class ColumnDefsTargets : IHtmlContent
+    public class ColumnDefsTargets : IJToken
     {
         private string target;
         private GridColumnsBuilder column;
@@ -30,16 +31,17 @@ namespace DataTables.AspNetCore.Mvc
         }
 
         /// <summary>
-        /// Writes the content by encoding it with the specified encoder to the specified writer
+        /// Gets the <see cref="JToken"/> of current instance
         /// </summary>
-        /// <param name="writer">The <see cref="TextWriter"/> to which the content is written.</param>
-        /// <param name="encoder">The System.Text.Encodings.Web.HtmlEncoder which encodes the content to be written.</param>
+        /// <returns></returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public void WriteTo(TextWriter writer, HtmlEncoder encoder)
+        public JToken ToJToken()
         {
-            writer.Write($"{{targets:{target},");
-            column.WriteTo(writer, encoder);
-            writer.Write("}");
+            JObject jObject = new JObject();
+            jObject.Add("targets", new JRaw(target));
+            // Merge column
+            jObject.Merge(column.ToJToken());
+            return jObject;
         }
     }
 }

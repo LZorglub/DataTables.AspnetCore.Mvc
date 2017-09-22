@@ -7,13 +7,14 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Text.Encodings.Web;
 using System.ComponentModel;
+using Newtonsoft.Json.Linq;
 
 namespace DataTables.AspNetCore.Mvc
 {
     /// <summary>
     /// Represents a grid column builder
     /// </summary>
-    public class GridColumnsBuilder : IHtmlContent
+    public class GridColumnsBuilder : IJToken
     {
         /// <summary>
         /// Initialize a new instance of <see cref="GridColumnsBuilder"/>
@@ -79,7 +80,7 @@ namespace DataTables.AspNetCore.Mvc
         /// <returns></returns>
         public GridColumnsBuilder Data(string data)
         {
-            this.Column.Data = $"\"{data}\"";
+            this.Column.Data = data;
             return this;
         }
 
@@ -90,7 +91,7 @@ namespace DataTables.AspNetCore.Mvc
         /// <returns></returns>
         public GridColumnsBuilder Data(int data)
         {
-            this.Column.Data = data.ToString();
+            this.Column.Data = data;
             return this;
         }
 
@@ -134,7 +135,7 @@ namespace DataTables.AspNetCore.Mvc
         /// <returns></returns>
         public GridColumnsBuilder OrderData(int column)
         {
-            this.Column.OrderData = column.ToString();
+            this.Column.OrderData = new int[] { column };
             return this;
         }
 
@@ -145,7 +146,7 @@ namespace DataTables.AspNetCore.Mvc
         /// <returns></returns>
         public GridColumnsBuilder OrderData(int[] columns)
         {
-            this.Column.OrderData = $"[{string.Join(",", columns)}]";
+            this.Column.OrderData = columns;
             return this;
         }
 
@@ -238,12 +239,11 @@ namespace DataTables.AspNetCore.Mvc
         }
 
         /// <summary>
-        /// Writes the content by encoding it with the specified encoder to the specified writer
+        /// Gets the <see cref="JToken"/> of current instance
         /// </summary>
-        /// <param name="writer">The <see cref="TextWriter"/> to which the content is written.</param>
-        /// <param name="encoder">The System.Text.Encodings.Web.HtmlEncoder which encodes the content to be written.</param>
+        /// <returns></returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public void WriteTo(TextWriter writer, HtmlEncoder encoder)
+        public JToken ToJToken()
         {
             //columns.cellType
             //columns.className
@@ -263,22 +263,25 @@ namespace DataTables.AspNetCore.Mvc
             //columns.width
 
             // data and orderData are full formatted
-
-            if (this.Column.CellType != Mvc.CellType.td) writer.Write("\"cellType\":\"tr\",");
-            if (!string.IsNullOrEmpty(this.Column.ClassName)) writer.Write($"className:\"{this.Column.ClassName}\",");
-            if (!string.IsNullOrEmpty(this.Column.ContentPadding)) writer.Write($"\"contentPadding\":\"{this.Column.ContentPadding}\",");
-            if (!string.IsNullOrEmpty(this.Column.Data)) writer.Write($"\"data\":{this.Column.Data},");
-            if (!string.IsNullOrEmpty(this.Column.DefaultContent)) writer.Write($"\"defaultContent\":\"{this.Column.DefaultContent}\",");
-            if (!string.IsNullOrEmpty(this.Column.Name)) writer.Write($"\"name\":\"{this.Column.Name}\",");
-            if (!this.Column.Orderable) writer.Write($"\"orderable\":\"false\",");
-            if (!string.IsNullOrEmpty(this.Column.OrderData)) writer.Write($"\"orderData\":{this.Column.OrderData},");
-            if (!string.IsNullOrEmpty(this.Column.OrderDataType)) writer.Write($"\"orderDataType\":\"{this.Column.OrderDataType}\",");
-            if (!string.IsNullOrEmpty(this.Column.Render)) writer.Write($"\"render\":{this.Column.Render},");
-            if (!this.Column.Searchable) writer.Write("searchable:false,");
-            if (!string.IsNullOrEmpty(this.Column.Title)) writer.Write($"\"title\":\"{this.Column.Title}\",");
-            if (!string.IsNullOrEmpty(this.Column.Type)) writer.Write($"\"type\":\"{this.Column.Type}\",");
-            if (!this.Column.Visible) writer.Write("visible:false,");
-            if (!string.IsNullOrEmpty(this.Column.Width)) writer.Write($"\"width\":\"{this.Column.Width}\"");
+            JObject jObject = new JObject();
+            if (this.Column.CellType != Mvc.CellType.td) jObject.Add("cellType", new JValue("tr"));
+            if (!string.IsNullOrEmpty(this.Column.ClassName)) jObject.Add("className", new JValue(this.Column.ClassName));
+            if (!string.IsNullOrEmpty(this.Column.ContentPadding)) jObject.Add("contentPadding", new JValue(this.Column.ContentPadding));
+            // data is string or int
+            if (this.Column.Data != null) jObject.Add("data", new JValue(this.Column.Data));
+            if (!string.IsNullOrEmpty(this.Column.DefaultContent)) jObject.Add("defaultContent", new JValue(this.Column.DefaultContent));
+            if (!string.IsNullOrEmpty(this.Column.Name)) jObject.Add("name", new JValue(this.Column.Name));
+            if (!this.Column.Orderable) jObject.Add("orderable", new JValue(false));
+            // int[]
+            if (this.Column.OrderData != null) jObject.Add("orderData", new JArray(this.Column.OrderData));
+            if (!string.IsNullOrEmpty(this.Column.OrderDataType)) jObject.Add("orderDataType", new JValue(this.Column.OrderDataType));
+            //if (!string.IsNullOrEmpty(this.Column.Render)) jObject.Add("render", new JValue(this.Column.Render));
+            if (!this.Column.Searchable) jObject.Add("searchable", new JValue(false));
+            if (!string.IsNullOrEmpty(this.Column.Title)) jObject.Add("title", new JValue(this.Column.Title));
+            if (!string.IsNullOrEmpty(this.Column.Type)) jObject.Add("type", new JValue(this.Column.Type));
+            if (!this.Column.Visible) jObject.Add("visible", new JValue(false));
+            if (!string.IsNullOrEmpty(this.Column.Width)) jObject.Add("width", new JValue(this.Column.Width));
+            return jObject;
         }
     }
 }

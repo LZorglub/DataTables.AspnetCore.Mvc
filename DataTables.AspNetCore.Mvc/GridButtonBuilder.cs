@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -12,7 +13,7 @@ namespace DataTables.AspNetCore.Mvc
     /// <summary>
     /// Represents a grid header button builder
     /// </summary>
-    public class GridButtonBuilder
+    public class GridButtonBuilder : IJToken
     {
         GridButtonOptions gridButton;
 
@@ -58,18 +59,17 @@ namespace DataTables.AspNetCore.Mvc
         }
 
         /// <summary>
-        /// Writes the content by encoding it with the specified encoder to the specified writer
+        /// Gets the <see cref="JToken"/> of current instance
         /// </summary>
-        /// <param name="writer">The <see cref="TextWriter"/> to which the content is written.</param>
-        /// <param name="encoder">The System.Text.Encodings.Web.HtmlEncoder which encodes the content to be written.</param>
+        /// <returns></returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public void WriteTo(TextWriter writer, HtmlEncoder encoder)
+        public JToken ToJToken()
         {
-            writer.Write("{");
-            if (!string.IsNullOrEmpty(this.gridButton.Text)) writer.Write($"\"text\":'{this.gridButton.Text}',");
-            if (!string.IsNullOrEmpty(this.gridButton.Extend)) writer.Write($"\"extend\":'{this.gridButton.Extend}',");
-            if (!string.IsNullOrEmpty(this.gridButton.Action)) writer.Write($"\"action\":function(e,dt,node,config){{{this.gridButton.Action}(e,dt,node,config);}}");
-            writer.Write("}");
+            JObject jObject = new JObject();
+            if (!string.IsNullOrEmpty(this.gridButton.Text)) jObject.Add("text", new JValue(this.gridButton.Text));
+            if (!string.IsNullOrEmpty(this.gridButton.Extend)) jObject.Add("extend", new JValue(this.gridButton.Extend));
+            if (!string.IsNullOrEmpty(this.gridButton.Action)) jObject.Add("action", new JRaw($"function(e,dt,node,config){{{this.gridButton.Action}(e,dt,node,config);}}"));
+            return jObject;
         }
 
     }
