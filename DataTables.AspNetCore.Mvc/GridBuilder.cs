@@ -416,33 +416,6 @@ namespace DataTables.AspNetCore.Mvc
             writer.Write(jObject.ToString(Newtonsoft.Json.Formatting.None));
             writer.Write(");");
 
-            /*
-            if (!string.IsNullOrEmpty(this.Grid.RowId)) writer.Write($"\"rowId\":'{this.Grid.RowId}',");
-            if (!string.IsNullOrEmpty(this.Grid.Dom)) writer.Write($"\"dom\":'{this.Grid.Dom}',");
-            if (!this.Grid.AutoWidth) writer.Write("\"autoWidth\":false,");
-            if (!this.Grid.Searching) writer.Write("\"searching\":false,");
-            if (this.Grid.StateSave) writer.Write("\"stateSave\":true,");
-            if (!this.Grid.Paging) writer.Write("\"paging\":false,");
-            if (this.Grid.PagingType != DataTables.AspNetCore.Mvc.PagingType.Simple_numbers) writer.Write($"\"pagingType\":\"{this.Grid.PagingType.ToString().ToLower()}\",");
-            if (!this.Grid.Ordering) writer.Write("\"ordering\":false,");
-            if (!this.Grid.Info) writer.Write("\"info\":false,");
-            if (!this.Grid.OrderMulti) writer.Write("\"orderMulti\":false,");
-            if (this.Grid.ScrollCollapse) writer.Write("\"scrollCollapse\":true,");
-            if (this.Grid.ScrollX) writer.Write("\"scrollX\":true,");
-            if (!string.IsNullOrEmpty(this.Grid.ScrollY)) writer.Write($"\"scrollY\":\"{this.Grid.ScrollY}\",");
-            if (this.Grid.Processing) writer.Write("\"processing\":true,");
-            if (this.Grid.ServerSide) writer.Write("\"serverSide\":true,");
-            if (this.Grid.DeferRender) writer.Write("\"deferRender\":true,");
-            if (this.OrderBuilder != null) this.OrderBuilder.WriteTo(writer, encoder);
-            if (this.GridButtonsFactory != null) this.GridButtonsFactory.WriteTo(writer, encoder);
-            if (this.ColumnsFactory!= null) this.ColumnsFactory.WriteTo(writer, encoder);
-            if (this.ColumnDefsFactory != null) this.ColumnDefsFactory.WriteTo(writer, encoder);
-            if (this.GridDataSourceBuilder != null) this.GridDataSourceBuilder.WriteTo(writer, encoder);
-            if (this.LanguageBuilder != null) this.LanguageBuilder.WriteTo(writer, encoder);
-            if (this.SelectBuilder != null) this.SelectBuilder.WriteTo(writer, encoder);
-            writer.Write("});");
-            */
-
             if (this.EventsBuilder != null) this.EventsBuilder.WriteTo(writer, encoder);
             if (withClick)
             {

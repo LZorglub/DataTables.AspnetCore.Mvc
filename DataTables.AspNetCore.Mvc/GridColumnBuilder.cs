@@ -168,7 +168,7 @@ namespace DataTables.AspNetCore.Mvc
         /// <returns></returns>
         public GridColumnsBuilder Render(string render)
         {
-            this.Column.Render = render;
+            this.Column.Render = new RenderOptions(RenderType.String, render);
             return this;
         }
 
@@ -179,7 +179,7 @@ namespace DataTables.AspNetCore.Mvc
         /// <returns></returns>
         public GridColumnsBuilder Render(Func<string> function)
         {
-            this.Column.Render = $"function(d,t,r,m){{return {function()}(d,t,r,m);}}";
+            this.Column.Render = new RenderOptions(RenderType.Function, $"function(d,t,r,m){{return {function()}(d,t,r,m);}}");
             return this;
         }
 
@@ -275,7 +275,25 @@ namespace DataTables.AspNetCore.Mvc
             // int[]
             if (this.Column.OrderData != null) jObject.Add("orderData", new JArray(this.Column.OrderData));
             if (!string.IsNullOrEmpty(this.Column.OrderDataType)) jObject.Add("orderDataType", new JValue(this.Column.OrderDataType));
-            //if (!string.IsNullOrEmpty(this.Column.Render)) jObject.Add("render", new JValue(this.Column.Render));
+            if (this.Column.Render != null)
+            {
+                if (this.Column.Render.RenderType == RenderType.String)
+                {
+                    // Template
+                    if (this.Column.Render.Render == null)
+                    {
+                        jObject.Add("render", new JRaw("null"));
+                    }
+                    else
+                    {
+                        jObject.Add("render", new JValue(this.Column.Render.Render));
+                    }
+                } else if (this.Column.Render.RenderType == RenderType.Function)
+                {
+                    // Function
+                    jObject.Add("render", new JRaw(this.Column.Render.Render));
+                }
+            }
             if (!this.Column.Searchable) jObject.Add("searchable", new JValue(false));
             if (!string.IsNullOrEmpty(this.Column.Title)) jObject.Add("title", new JValue(this.Column.Title));
             if (!string.IsNullOrEmpty(this.Column.Type)) jObject.Add("type", new JValue(this.Column.Type));

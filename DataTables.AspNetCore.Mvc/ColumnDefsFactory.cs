@@ -31,7 +31,7 @@ namespace DataTables.AspNetCore.Mvc
         public GridColumnsBuilder Targets(string className)
         {
             GridColumnsBuilder column = new GridColumnsBuilder();
-            targets.Add(new ColumnDefsTargets($"'{className}'", column));
+            targets.Add(new ColumnDefsTargets($"\"{className}\"", column));
             return column;
         }
 
@@ -67,7 +67,7 @@ namespace DataTables.AspNetCore.Mvc
         public GridColumnsBuilder TargetAll()
         {
             GridColumnsBuilder column = new GridColumnsBuilder();
-            targets.Add(new ColumnDefsTargets("'_all'", column));
+            targets.Add(new ColumnDefsTargets("\"_all\"", column));
             return column;
         }
 

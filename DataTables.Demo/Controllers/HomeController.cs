@@ -20,6 +20,11 @@ namespace DataTables.Demo.Controllers
             return View();
         }
 
+        public IActionResult Render()
+        {
+            return View();
+        }
+
         public IActionResult ServerSide()
         {
             return View();

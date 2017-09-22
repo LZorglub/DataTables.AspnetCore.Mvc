@@ -38,7 +38,7 @@
             {
                 cols.Add(c => c.Name).Title("Name");
                 cols.Add(c => c.Office).Title("Office");
-                cols.Add(c => c.Position).Title("Position");
+                cols.Add(c => c.Position).Title("Position").Render("position");
                 cols.Add(c => c.Salary).Visible(false).Title("Salary");
                 cols.Add(c => c.Created).Title("Date");
                 cols.Add(c => c.Id).Data("id").Title("").Render(() => "onRender").Click("onClick");

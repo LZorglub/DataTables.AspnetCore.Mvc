@@ -1,0 +1,38 @@
+﻿@{
+    ViewData["Title"] = "Ajax";
+}
+
+<h2>Ajax</h2>
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <table id="example" class="display" cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Position</th>
+                    <th>Office</th>
+                </tr>
+            </thead>
+        </table>
+
+        @(Html.Ext().Grid<dynamic>().Name("example")
+            .Columns(c =>
+            {
+                c.Add<dynamic>().Data("name");
+                c.Add<dynamic>().Data("position").Render(()=> "bold");
+                c.Add<dynamic>().Data("office").Render("[, ].name");
+            })
+            .DataSource(c =>
+                c.Ajax().Url("/data/complex.json").Method("GET").DataSrc("data")
+            )
+        )
+
+    </div>
+</div>
+
+<script type="text/javascript">
+    function bold(d, t, r, m) {
+        return '<b>'+d+'</b>';
+    }
+</script>

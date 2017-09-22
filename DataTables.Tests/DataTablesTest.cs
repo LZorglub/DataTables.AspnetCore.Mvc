@@ -67,7 +67,7 @@ namespace DataTables.Tests
             ColumnDefsFactory factory = new ColumnDefsFactory();
             factory.TargetAll(); ;
             var j = factory.ToJToken();
-            Assert.AreEqual("[{\"targets\":'_all'}]", j.ToString(Newtonsoft.Json.Formatting.None));
+            Assert.AreEqual("[{\"targets\":\"_all\"}]", j.ToString(Newtonsoft.Json.Formatting.None));
         }
 
         [TestMethod]
@@ -76,7 +76,7 @@ namespace DataTables.Tests
             ColumnDefsFactory factory = new ColumnDefsFactory();
             factory.Targets("class");
             var j = factory.ToJToken();
-            Assert.AreEqual("[{\"targets\":'class'}]", j.ToString(Newtonsoft.Json.Formatting.None));
+            Assert.AreEqual("[{\"targets\":\"class\"}]", j.ToString(Newtonsoft.Json.Formatting.None));
         }
 
         [TestMethod]
@@ -88,6 +88,26 @@ namespace DataTables.Tests
             factory.Targets(1).Visible(false);
             var j = factory.ToJToken();
             Assert.AreEqual("[{\"targets\":[3,4],\"orderData\":[0],\"searchable\":false},{\"targets\":1,\"visible\":false}]", j.ToString(Newtonsoft.Json.Formatting.None));
+        }
+
+        [TestMethod]
+        public void TestColumnRenderNull()
+        {
+            GridColumnsBuilder factory = new GridColumnsBuilder();
+            factory.Render((string)null);
+            var j = factory.ToJToken();
+
+            Assert.AreEqual("{\"render\":null}", j.ToString(Newtonsoft.Json.Formatting.None));
+        }
+
+        [TestMethod]
+        public void TestColumnRenderFunction()
+        {
+            GridColumnsBuilder factory = new GridColumnsBuilder();
+            factory.Render(() => "onRender");
+            var j = factory.ToJToken();
+
+            Assert.AreEqual("{\"render\":function(d,t,r,m){return onRender(d,t,r,m);}}", j.ToString(Newtonsoft.Json.Formatting.None));
         }
     }
 }

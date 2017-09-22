@@ -79,7 +79,7 @@ namespace DataTables.AspNetCore.Mvc
         /// <summary>
         /// Render (process) the data for use in the table.
         /// </summary>
-        public string Render { get; set; }
+        public RenderOptions Render { get; set; }
         
         /// <summary>
         /// Enable or disable filtering on the data in this column.

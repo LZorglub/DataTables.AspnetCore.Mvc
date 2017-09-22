@@ -1,0 +1,12 @@
+﻿{
+  "data": [
+    {
+      "name": "Tiger Nixon",
+      "position": "System Architect",
+      "office": [
+        { "name": "NY" },
+        { "name": "Edinburgh" }
+      ]
+    }
+  ]
+}
