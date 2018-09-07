@@ -18,10 +18,10 @@
         {
             this.Data = data;
             this.Name = name;
-            this.Searchable = Searchable;
+            this.Searchable = searchable;
             this.Orderable = orderable;
-            this.SearchValue = SearchValue;
-            this.SearchRegEx = SearchRegEx;
+            this.SearchValue = searchValue;
+            this.SearchRegEx = regex;
         }
 
         /// <summary>
