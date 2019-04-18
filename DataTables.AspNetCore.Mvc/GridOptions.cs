@@ -33,6 +33,11 @@
         public string Name { get; set; }
 
         /// <summary>
+        /// Gets the grid css class 
+        /// </summary>
+        public string ClassName { get; set; }
+
+        /// <summary>
         /// Define the table control elements to appear on the page and in what order.
         /// </summary>
         public string Dom { get; internal set; }

@@ -5,7 +5,7 @@ The **DataTables.AspnetCore.Mvc** provides htmlHelper wrapper for [jquery datata
 The easiest way to install is by using [NuGet](https://www.nuget.org/packages/DataTables.AspnetCore.Mvc/). The current version is writing in netstandard2.0
 
 # HowTo
-Refer to the official dataTables.net documentation for details on options.
+Refer to the official [dataTables.net](https://datatables.net/) documentation for details on options.
 
 ## Dependencies
 DataTables has only one library dependency [jQuery](https://jquery.com)
@@ -28,6 +28,11 @@ Add a using on the library in the _ViewImports.cshtml file.
 The easy way  to use it with your own tables is to call the htmlHelper with our id table.
 ```javascript
 @(Html.Ext().Grid<dynamic>().Name("example"))
+```
+
+You can customize the table css class with the ClassName method
+```javascript
+@(Html.Ext().Grid<dynamic>().Name("example")).ClassName("dataTable responsive")
 ```
 
 Layout and columns definition can be set with Dom and ColumnDefs method

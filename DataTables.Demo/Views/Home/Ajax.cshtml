@@ -30,6 +30,7 @@
         </table>
 
         @(Html.Ext().Grid<dynamic>().Name("example")
+            .ClassName("dataTable")
             .ColumnDefs(c => {
                 c.TargetAll().Searchable(true);
                 c.Targets(0).OrderData(1);

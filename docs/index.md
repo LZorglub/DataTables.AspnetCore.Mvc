@@ -1,28 +1,28 @@
 # DataTables.AspnetCore.Mvc
 The **DataTables.AspnetCore.Mvc** provides htmlHelper wrapper for [jquery datatables](https://datatables.net/).
 
-# NUGET
+# Installation
 The easiest way to install is by using [NuGet](https://www.nuget.org/packages/DataTables.AspnetCore.Mvc/). The current version is writing in netstandard2.0
 
-# HowTo
-Refer to the official dataTables.net documentation for details on options.
-
-## Dependencies
+### Dependencies
 DataTables has only one library dependency [jQuery](https://jquery.com)
 
-Add a link on datatables css and javascript files on your page
+Add a link on datatables css and javascript files in your page
 
 ```javascript
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/b-1.4.2/b-html5-1.4.2/b-print-1.4.2/sl-1.2.3/datatables.min.css" />
 <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.16/b-1.4.2/b-html5-1.4.2/b-print-1.4.2/sl-1.2.3/datatables.min.js"></script>
 ```
-Note that additional packages can be required for extensions.
+Note that additional datatables packages can be required for [extensions](https://datatables.net/extensions/index).
 
-Add a using on the library in the _ViewImports.cshtml file.
+To avoid to reference the namespace in each cshtml files you can add an using in the _ViewImports.cshtml file.
 ```javascript
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @using DataTables.AspNetCore.Mvc
 ```
+
+# HowTo
+Refer to the official [dataTables.net](https://datatables.net/) documentation for details on options.
 
 ## Basic initialisation
 The easy way  to use it with your own tables is to call the htmlHelper with our id table.
