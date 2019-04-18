@@ -75,6 +75,17 @@ namespace DataTables.AspNetCore.Mvc
         }
 
         /// <summary>
+        /// Grid class style
+        /// </summary>
+        /// <param name="className"></param>
+        /// <returns></returns>
+        public GridBuilder<T> ClassName(string className)
+        {
+            this.Grid.ClassName = className;
+            return this;
+        }
+
+        /// <summary>
         /// Define the table control elements to appear on the page and in what order.
         /// </summary>
         /// <param name="dom"></param>
@@ -383,7 +394,7 @@ namespace DataTables.AspNetCore.Mvc
             //        document.write('<table id="example" class="display" cellspacing="0" width="100%"></table>')
             //      }
             //</ script >
-            writer.Write($"<script type=\"text/javascript\">if ($(\"{this.Grid.Name}\").length==0){{document.write('<table id=\"{this.Grid.Name}\" class=\"display\" cellspacing=\"0\" width=\"100%\"></table>')}}</script>");
+            writer.Write($"<script type=\"text/javascript\">if ($(\"{this.Grid.Name}\").length==0){{document.write('<table id=\"{this.Grid.Name}\" class=\"display{(!string.IsNullOrWhiteSpace(this.Grid.ClassName) ? $" {this.Grid.ClassName}" : "")}\" cellspacing=\"0\" width=\"100%\"></table>')}}</script>");
 
             // Datables.Net
             writer.Write("<script>$(function(){");

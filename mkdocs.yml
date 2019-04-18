@@ -1,2 +1,5 @@
 site_name: DataTables.AspNetCore.Mvc
 theme: readthedocs
+pages:
+  - Home: index.md
+  - Links: links.md
