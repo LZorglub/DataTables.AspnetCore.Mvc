@@ -32,7 +32,7 @@ namespace DataTables.Demo.Controllers
                     Name = e.Name,
                     Created = e.Created,
                     Salary = e.Salary,
-                    Position = e.Position,
+					Position = e.Position,
                     Office = e.Office
                 })
                 .ToDataTablesResponse(dataRequest, recordsTotal, recordsFilterd));
