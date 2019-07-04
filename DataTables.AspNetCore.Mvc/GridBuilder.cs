@@ -19,7 +19,7 @@ namespace DataTables.AspNetCore.Mvc
         /// <summary>
         /// Initialize a new instance of <see cref="GridBuilder{T}"/>
         /// </summary>
-        public GridBuilder() 
+        public GridBuilder()
         {
             this.Grid = new GridOptions<T>();
         }
@@ -394,7 +394,7 @@ namespace DataTables.AspNetCore.Mvc
             //        document.write('<table id="example" class="display" cellspacing="0" width="100%"></table>')
             //      }
             //</ script >
-            writer.Write($"<script type=\"text/javascript\">if ($(\"{this.Grid.Name}\").length==0){{document.write('<table id=\"{this.Grid.Name}\" class=\"display{(!string.IsNullOrWhiteSpace(this.Grid.ClassName) ? $" {this.Grid.ClassName}" : "")}\" cellspacing=\"0\" width=\"100%\"></table>')}}</script>");
+            writer.Write($"<script type=\"text/javascript\">if ($(\"#{this.Grid.Name}\").length==0){{document.write('<table id=\"{this.Grid.Name}\" class=\"display{(!string.IsNullOrWhiteSpace(this.Grid.ClassName) ? $" {this.Grid.ClassName}" : "")}\" cellspacing=\"0\" width=\"100%\"></table>')}}</script>");
 
             // Datables.Net
             writer.Write("<script>$(function(){");
