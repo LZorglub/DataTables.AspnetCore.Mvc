@@ -13,7 +13,10 @@
 		<PackageReleaseNotes>Custom table css class</PackageReleaseNotes>
 		<RepositoryType>git</RepositoryType>
 		<RepositoryUrl>https://github.com/LZorglub/DataTables.AspnetCore.Mvc</RepositoryUrl>
-	</PropertyGroup>
+
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+
+  </PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<DocumentationFile>bin\Release\netstandard2.0\DataTables.AspNetCore.Mvc.xml</DocumentationFile>
