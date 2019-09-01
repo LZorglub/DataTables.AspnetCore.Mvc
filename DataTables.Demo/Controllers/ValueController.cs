@@ -23,7 +23,8 @@ namespace DataTables.Demo.Controllers
 				products = products.Where(e => e.Name.Contains(dataRequest.Search.Value));
 				recordsFilterd = products.Count();
 			}
-			products = products.Skip(dataRequest.Start).Take(dataRequest.Length);
+            products = products.Skip(dataRequest.Start);
+            if (dataRequest.Length != -1) products = products.Take(dataRequest.Length);
 
 			return Json(products
 				.Select(e => new

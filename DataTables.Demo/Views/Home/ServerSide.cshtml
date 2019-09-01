@@ -44,6 +44,11 @@
                 cols.Add(c => c.Id).Data("id").Title("").Render(() => "onRender").Click("onClick");
             })
             .ServerSide(true)
+            .LengthMenu(c =>
+            {
+                c.Add(new int[] { 10, 25, 50 });
+                c.Add(-1, "All");
+            })
             .DataSource(c =>
                 c.Ajax().Url("/api/value").Method("GET")
             )

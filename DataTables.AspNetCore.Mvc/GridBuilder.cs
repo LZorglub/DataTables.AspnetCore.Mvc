@@ -61,6 +61,10 @@ namespace DataTables.AspNetCore.Mvc
         /// Gets or sets the language builder
         /// </summary>
         private LanguageBuilder LanguageBuilder { get; set; }
+        /// <summary>
+        /// Gets or sets the <see cref="LengthMenuBuilder"/>
+        /// </summary>
+        private LengthMenuBuilder LengthMenuBuilder { get; set; }
         #endregion
 
         /// <summary>
@@ -172,6 +176,19 @@ namespace DataTables.AspNetCore.Mvc
         public GridBuilder<T> PagingType(PagingType pagingType)
         {
             this.Grid.PagingType = pagingType;
+            return this;
+        }
+
+        /// <summary>
+        /// Change the options in the page length select list.
+        /// </summary>
+        /// <param name="config"></param>
+        /// <returns></returns>
+        public GridBuilder<T> LengthMenu(Action<LengthMenuBuilder> config)
+        {
+            this.LengthMenuBuilder = new LengthMenuBuilder();
+            config.Invoke(this.LengthMenuBuilder);
+
             return this;
         }
 
@@ -408,6 +425,7 @@ namespace DataTables.AspNetCore.Mvc
             if (this.Grid.StateSave) jObject.Add("stateSave", new JValue(true));
             if (!this.Grid.Paging) jObject.Add("paging", new JValue(false));
             if (this.Grid.PagingType != DataTables.AspNetCore.Mvc.PagingType.Simple_numbers) jObject.Add($"pagingType", new JValue(this.Grid.PagingType.ToString().ToLower()));
+            if (this.LengthMenuBuilder != null) jObject.Add("lengthMenu", this.LengthMenuBuilder.ToJToken());
             if (!this.Grid.Ordering) jObject.Add("ordering", new JValue(false));
             if (!this.Grid.Info) jObject.Add("info", new JValue(false));
             if (!this.Grid.OrderMulti) jObject.Add("orderMulti", new JValue(false));
